@@ -1,0 +1,2879 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="theme-color" content="#ff6b9d">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <title>دنیای پشمالو و دانای من 🍓✨</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+    <style>
+        :root {
+            --primary: #ff6b9d;
+            --primary-dark: #e0457b;
+            --primary-light: #ffe4ef;
+            --secondary: #9333ea;
+            --accent: #f59e0b;
+            --success: #10b981;
+            --danger: #f43f5e;
+            --bg-top: #fff0f6;
+            --bg-bottom: #f3e8ff;
+            --card-bg: rgba(255, 255, 255, 0.95);
+            --text-main: #374151;
+            --text-muted: #6b7280;
+            --border-soft: #ffd6e7;
+            --radius-xl: 26px;
+            --radius-lg: 18px;
+            --shadow-soft: 0 10px 25px -6px rgba(255, 107, 157, 0.2), 0 4px 10px -4px rgba(147, 51, 234, 0.08);
+        }
+
+        [data-theme="lavender"] {
+            --primary: #8b5cf6; --primary-dark: #6d28d9; --primary-light: #ede9fe;
+            --secondary: #ec4899; --bg-top: #f5f3ff; --bg-bottom: #fce7f3; --border-soft: #ddd6fe;
+        }
+        [data-theme="sky"] {
+            --primary: #0ea5e9; --primary-dark: #0284c7; --primary-light: #e0f2fe;
+            --secondary: #6366f1; --bg-top: #f0f9ff; --bg-bottom: #eef2ff; --border-soft: #bae6fd;
+        }
+        [data-theme="matcha"] {
+            --primary: #10b981; --primary-dark: #059669; --primary-light: #d1fae5;
+            --secondary: #f59e0b; --bg-top: #ecfdf5; --bg-bottom: #fef3c7; --border-soft: #a7f3d0;
+        }
+        [data-theme="peach"] {
+            --primary: #fb923c; --primary-dark: #ea580c; --primary-light: #ffedd5;
+            --secondary: #f43f5e; --bg-top: #fff7ed; --bg-bottom: #ffe4e6; --border-soft: #fed7aa;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Vazirmatn', Tahoma, sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        html, body {
+            overflow-x: hidden;
+            background: linear-gradient(160deg, var(--bg-top) 0%, var(--bg-bottom) 100%);
+            background-attachment: fixed;
+            color: var(--text-main);
+            min-height: 100vh;
+        }
+
+        body {
+            padding-bottom: calc(90px + env(safe-area-inset-bottom, 0px));
+        }
+
+        /* ابعاد استاندارد و بهینه موبایل */
+        .app-shell {
+            max-width: 480px;
+            margin: 0 auto;
+            padding: 10px 12px 24px 12px;
+        }
+
+        /* Header */
+        .top-bar {
+            background: var(--card-bg);
+            border: 2px solid var(--border-soft);
+            border-radius: var(--radius-xl);
+            padding: 11px 13px;
+            box-shadow: var(--shadow-soft);
+            margin-bottom: 12px;
+        }
+        .top-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 6px;
+        }
+        .user-mini {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            min-width: 0;
+        }
+        .avatar-bubble {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: var(--primary-light);
+            border: 2.5px solid var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            flex-shrink: 0;
+            cursor: pointer;
+        }
+        .user-titles { min-width: 0; }
+        .user-titles h1 {
+            font-size: 0.94rem;
+            font-weight: 900;
+            color: var(--primary-dark);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .sub-pill {
+            font-size: 0.68rem;
+            font-weight: 800;
+            color: var(--text-muted);
+            display: block;
+        }
+
+        .hdr-btns {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            flex-shrink: 0;
+        }
+        .berry-wallet {
+            background: linear-gradient(135deg, #ffe4ef, #ffd1e3);
+            border: 2px solid #ff6b9d;
+            color: #be185d;
+            padding: 5px 9px;
+            border-radius: 15px;
+            font-size: 0.78rem;
+            font-weight: 900;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 3px;
+        }
+        .boutique-btn {
+            background: linear-gradient(135deg, #fef3c7, #fde68a);
+            border: 2px solid #f59e0b;
+            color: #92400e;
+            padding: 5px 9px;
+            border-radius: 15px;
+            font-size: 0.75rem;
+            font-weight: 900;
+            cursor: pointer;
+            box-shadow: 0 2px 0 #d97706;
+        }
+        .icon-btn {
+            width: 34px;
+            height: 34px;
+            border-radius: 12px;
+            border: 2px solid var(--border-soft);
+            background: #fff;
+            font-size: 1rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Live Decorated Fluffy Room */
+        .pet-room {
+            border: 2.5px solid var(--border-soft);
+            border-radius: var(--radius-xl);
+            padding: 14px 12px 12px 12px;
+            text-align: center;
+            position: relative;
+            margin-bottom: 12px;
+            box-shadow: var(--shadow-soft);
+            overflow: hidden;
+            min-height: 195px;
+            transition: background 0.4s ease;
+        }
+        /* Room Wallpapers */
+        .room-bg-default { background: linear-gradient(180deg, #ffffff 0%, #ffe4ef 100%); }
+        .room-bg-rainbow { background: linear-gradient(180deg, #e0f2fe 0%, #fce7f3 55%, #fef3c7 100%); }
+        .room-bg-sakura  { background: linear-gradient(180deg, #fff1f2 0%, #fbcfe8 100%); }
+        .room-bg-cloud   { background: linear-gradient(180deg, #dbeafe 0%, #ede9fe 100%); }
+        .room-bg-galaxy  { background: linear-gradient(180deg, #312e81 0%, #701a75 100%); color: #fff; }
+        .room-bg-candy   { background: repeating-linear-gradient(45deg, #fff5f7, #fff5f7 14px, #ffe4ef 14px, #ffe4ef 28px); }
+
+        .room-garland {
+            font-size: 1.05rem;
+            letter-spacing: 5px;
+            margin-top: -6px;
+            margin-bottom: 4px;
+            opacity: 0.92;
+            min-height: 20px;
+        }
+
+        .room-badge-right {
+            position: absolute;
+            top: 28px;
+            right: 10px;
+            background: rgba(255,255,255,0.92);
+            border: 1.5px solid #fdba74;
+            color: #ea580c;
+            font-size: 0.68rem;
+            font-weight: 800;
+            padding: 3px 8px;
+            border-radius: 16px;
+            z-index: 2;
+        }
+        .room-badge-left {
+            position: absolute;
+            top: 28px;
+            left: 10px;
+            background: rgba(255,255,255,0.92);
+            border: 1.5px solid var(--border-soft);
+            color: var(--primary-dark);
+            font-size: 0.68rem;
+            font-weight: 800;
+            padding: 3px 8px;
+            border-radius: 16px;
+            cursor: pointer;
+            z-index: 2;
+        }
+
+        .room-stage {
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            gap: 14px;
+            margin-top: 16px;
+            margin-bottom: 4px;
+            position: relative;
+        }
+        .room-prop {
+            font-size: 2rem;
+            filter: drop-shadow(0 4px 6px rgba(0,0,0,0.08));
+            min-width: 36px;
+        }
+        .pet-character-wrap {
+            position: relative;
+            display: inline-block;
+            cursor: pointer;
+            user-select: none;
+            animation: floatPet 3s ease-in-out infinite;
+        }
+        .pet-hat {
+            position: absolute;
+            top: -22px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 1.75rem;
+            z-index: 3;
+            pointer-events: none;
+        }
+        .pet-body {
+            font-size: 4.1rem;
+            line-height: 1.05;
+            display: inline-block;
+            filter: drop-shadow(0 8px 10px rgba(0,0,0,0.12));
+        }
+        .pet-character-wrap.boing { animation: boingPet 0.45s ease; }
+
+        @keyframes floatPet {
+            0%, 100% { transform: translateY(0px) rotate(-1.5deg); }
+            50% { transform: translateY(-7px) rotate(1.5deg); }
+        }
+        @keyframes boingPet {
+            0% { transform: scale(1); }
+            40% { transform: scale(1.25, 0.82) translateY(-10px); }
+            75% { transform: scale(0.94, 1.08); }
+            100% { transform: scale(1); }
+        }
+
+        .pet-speech {
+            background: rgba(255, 255, 255, 0.95);
+            color: #374151;
+            border: 2px solid var(--border-soft);
+            border-radius: 16px;
+            padding: 7px 11px;
+            font-size: 0.78rem;
+            font-weight: 700;
+            display: inline-block;
+            max-width: 96%;
+            margin-top: 4px;
+        }
+        .fly-heart {
+            position: absolute;
+            pointer-events: none;
+            font-size: 1.25rem;
+            animation: heartUp 0.95s ease-out forwards;
+            z-index: 10;
+        }
+        @keyframes heartUp {
+            0% { opacity: 1; transform: translateY(0) scale(0.8); }
+            100% { opacity: 0; transform: translateY(-55px) scale(1.4); }
+        }
+
+        /* Daily Surprise Egg Card */
+        .egg-card {
+            background: linear-gradient(135deg, #ffffff 0%, #fdf2f8 55%, #fef3c7 100%);
+            border: 2.5px solid #fbcfe8;
+            border-radius: var(--radius-xl);
+            padding: 14px;
+            margin-bottom: 12px;
+            box-shadow: var(--shadow-soft);
+        }
+        .egg-flex {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .egg-visual {
+            width: 78px;
+            height: 88px;
+            border-radius: 50% 50% 46% 46%;
+            background: radial-gradient(circle at 35% 30%, #fff, #fbcfe8 60%, #f472b6 100%);
+            border: 3px solid #ec4899;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.6rem;
+            flex-shrink: 0;
+            cursor: pointer;
+            box-shadow: 0 6px 15px rgba(236, 72, 153, 0.25);
+            position: relative;
+        }
+        .egg-visual.ready {
+            animation: wobbleEgg 1.2s infinite;
+            background: radial-gradient(circle at 35% 30%, #fffbeb, #fde68a 55%, #f59e0b 100%);
+            border-color: #d97706;
+        }
+        .egg-visual.cracked {
+            background: #ecfdf5;
+            border-color: #34d399;
+        }
+        @keyframes wobbleEgg {
+            0%, 100% { transform: rotate(0deg) scale(1); }
+            25% { transform: rotate(-8deg) scale(1.06); }
+            50% { transform: rotate(8deg) scale(1.06); }
+            75% { transform: rotate(-5deg) scale(1.04); }
+        }
+
+        .egg-locks { flex: 1; min-width: 0; }
+        .lock-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 0.74rem;
+            font-weight: 700;
+            padding: 5px 8px;
+            border-radius: 11px;
+            background: rgba(255,255,255,0.85);
+            margin-bottom: 5px;
+            border: 1.5px solid #f3f4f6;
+        }
+        .lock-row.ok {
+            background: #ecfdf5;
+            border-color: #6ee7b7;
+            color: #065f46;
+        }
+        .lock-row.fail {
+            background: #fff1f2;
+            border-color: #fda4af;
+            color: #be123c;
+        }
+
+        /* Next Plushie Milestone Progress Banner */
+        .milestone-banner {
+            background: var(--card-bg);
+            border: 2px solid var(--border-soft);
+            border-radius: var(--radius-lg);
+            padding: 10px 12px;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+        }
+        .ms-bar-bg {
+            height: 8px;
+            background: #e5e7eb;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-top: 4px;
+        }
+        .ms-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            border-radius: 10px;
+            transition: width 0.4s;
+        }
+
+        /* Standard Cards & Grids */
+        .card {
+            background: var(--card-bg);
+            border: 2px solid var(--border-soft);
+            border-radius: var(--radius-xl);
+            padding: 15px;
+            margin-bottom: 12px;
+            box-shadow: var(--shadow-soft);
+        }
+        .card-title {
+            font-size: 0.94rem;
+            font-weight: 900;
+            color: var(--primary-dark);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 6px;
+        }
+
+        .stats-grid-4 {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+        .stats-grid-3 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 7px;
+            margin-bottom: 12px;
+        }
+        .mini-stat {
+            background: var(--card-bg);
+            border: 2px solid var(--border-soft);
+            border-radius: var(--radius-lg);
+            padding: 9px 6px;
+            text-align: center;
+        }
+        .mini-stat .num {
+            font-size: 1.15rem;
+            font-weight: 900;
+            color: var(--primary-dark);
+            margin: 2px 0;
+        }
+        .mini-stat .txt {
+            font-size: 0.67rem;
+            font-weight: 700;
+            color: var(--text-muted);
+        }
+
+        /* Buttons & Forms (16px font prevents iOS zoom) */
+        .btn-fluffy {
+            width: 100%;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: #fff;
+            border: none;
+            padding: 12px 16px;
+            border-radius: 17px;
+            font-size: 0.92rem;
+            font-weight: 800;
+            cursor: pointer;
+            box-shadow: 0 4px 0 var(--primary-dark), 0 8px 15px rgba(255, 107, 157, 0.25);
+            transition: transform 0.1s, box-shadow 0.1s;
+        }
+        .btn-fluffy:active {
+            transform: translateY(3px);
+            box-shadow: 0 1px 0 var(--primary-dark);
+        }
+        .btn-soft {
+            background: var(--primary-light);
+            color: var(--primary-dark);
+            border: 1.5px solid var(--border-soft);
+            padding: 8px 12px;
+            border-radius: 13px;
+            font-size: 0.78rem;
+            font-weight: 800;
+            cursor: pointer;
+        }
+
+        label {
+            display: block;
+            font-size: 0.8rem;
+            font-weight: 800;
+            margin-bottom: 4px;
+            color: var(--text-main);
+        }
+        input, select, textarea {
+            width: 100%;
+            padding: 10px 12px;
+            border: 2px solid #e5e7eb;
+            border-radius: 14px;
+            font-size: 16px;
+            margin-bottom: 10px;
+            background: #fff;
+            color: var(--text-main);
+            outline: none;
+        }
+        input:focus, select:focus, textarea:focus { border-color: var(--primary); }
+
+        .chips {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+            margin-bottom: 10px;
+        }
+        .chip {
+            padding: 6px 10px;
+            border-radius: 12px;
+            background: #f9fafb;
+            border: 1.5px solid #e5e7eb;
+            font-size: 0.75rem;
+            font-weight: 700;
+            cursor: pointer;
+        }
+        .chip.selected {
+            background: var(--primary-light);
+            border-color: var(--primary);
+            color: var(--primary-dark);
+        }
+
+        /* Shamsi Calendar */
+        .cal-weekdays {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            text-align: center;
+            font-size: 0.7rem;
+            font-weight: 800;
+            color: var(--text-muted);
+            margin-bottom: 5px;
+        }
+        .cal-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 4px;
+        }
+        .cal-cell {
+            aspect-ratio: 1 / 1.08;
+            background: #fff;
+            border: 1.5px solid #f3f4f6;
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            padding: 2px;
+        }
+        .cal-cell.empty { background: transparent; border: none; cursor: default; }
+        .cal-cell .d-num { font-size: 0.82rem; font-weight: 800; }
+        .cal-cell.is-today { border: 2px solid var(--secondary); background: #faf5ff; }
+        .cal-cell.is-selected {
+            background: var(--primary);
+            color: #fff;
+            border-color: var(--primary-dark);
+            transform: scale(1.04);
+        }
+        .cal-dots { display: flex; gap: 2px; margin-top: 2px; height: 5px; }
+        .c-dot { width: 5px; height: 5px; border-radius: 50%; }
+        .c-dot.iq { background: #8b5cf6; }
+        .c-dot.good { background: #10b981; }
+        .c-dot.egg { background: #f59e0b; }
+        .c-dot.over { background: #ef4444; }
+        .cal-cell.is-selected .c-dot { border: 1px solid #fff; }
+
+        /* Boutique, Plushies, Stickers & Medals */
+        .pill-tabs {
+            display: flex;
+            gap: 5px;
+            margin-bottom: 12px;
+            overflow-x: auto;
+            padding-bottom: 3px;
+        }
+        .pill-tab {
+            flex: 1;
+            white-space: nowrap;
+            padding: 8px 9px;
+            border-radius: 13px;
+            border: 1.5px solid var(--border-soft);
+            background: #fff;
+            font-size: 0.74rem;
+            font-weight: 800;
+            color: var(--text-muted);
+            cursor: pointer;
+            text-align: center;
+        }
+        .pill-tab.active {
+            background: var(--primary);
+            color: #fff;
+            border-color: var(--primary);
+        }
+
+        .shop-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 9px;
+        }
+        .shop-card {
+            background: #fff;
+            border: 2px solid var(--border-soft);
+            border-radius: 18px;
+            padding: 11px 8px;
+            text-align: center;
+            transition: 0.2s;
+        }
+        .shop-card.locked {
+            background: #f9fafb;
+            border: 2px dashed #d1d5db;
+        }
+        .shop-card.locked .sc-emoji { filter: grayscale(1) opacity(0.45); }
+        .shop-card.equipped {
+            background: var(--primary-light);
+            border-color: var(--primary);
+            box-shadow: 0 0 0 2px var(--primary);
+        }
+        .sc-emoji { font-size: 2.3rem; margin-bottom: 4px; display: inline-block; }
+        .sc-name { font-size: 0.78rem; font-weight: 900; }
+        .sc-sub { font-size: 0.66rem; color: var(--text-muted); margin: 3px 0 6px 0; font-weight: 700; }
+
+        .sticker-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 7px;
+        }
+        .sticker-slot {
+            background: #fff;
+            border: 2px solid var(--border-soft);
+            border-radius: 16px;
+            padding: 8px 4px;
+            text-align: center;
+        }
+        .sticker-slot.unowned {
+            background: #f3f4f6;
+            border: 1.5px dashed #d1d5db;
+            opacity: 0.55;
+        }
+        .sticker-slot.rarity-glitter { background: linear-gradient(135deg, #fff, #fce7f3); border-color: #f472b6; }
+        .sticker-slot.rarity-magic   { background: linear-gradient(135deg, #f5f3ff, #e0e7ff); border-color: #8b5cf6; }
+        .sticker-slot.rarity-legend  { background: linear-gradient(135deg, #fffbeb, #fde68a); border-color: #f59e0b; }
+
+        .medal-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: #fff;
+            border: 2px solid #f3f4f6;
+            border-radius: 16px;
+            padding: 9px 11px;
+            margin-bottom: 8px;
+        }
+        .medal-row.unlocked {
+            background: linear-gradient(90deg, #fffbeb, #fff);
+            border-color: #fcd34d;
+        }
+        .m-ic {
+            width: 42px;
+            height: 42px;
+            border-radius: 13px;
+            background: #f3f4f6;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            flex-shrink: 0;
+            filter: grayscale(1) opacity(0.45);
+        }
+        .medal-row.unlocked .m-ic { background: #fef3c7; filter: none; }
+
+        /* 3D Leitner */
+        .leitner-strip {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 5px;
+            margin-bottom: 10px;
+        }
+        .l-box {
+            background: #fff;
+            border: 1.5px solid #e5e7eb;
+            border-radius: 13px;
+            padding: 6px 2px;
+            text-align: center;
+        }
+        .l-box.due { background: var(--primary-light); border-color: var(--primary); }
+        .fc-scene { width: 100%; height: 220px; perspective: 1000px; margin-bottom: 10px; }
+        .fc-card {
+            width: 100%; height: 100%; position: relative;
+            transform-style: preserve-3d; transition: transform 0.55s; cursor: pointer;
+        }
+        .fc-card.flipped { transform: rotateY(180deg); }
+        .fc-face {
+            position: absolute; inset: 0; backface-visibility: hidden; -webkit-backface-visibility: hidden;
+            border-radius: 20px; padding: 16px; display: flex; flex-direction: column;
+            justify-content: space-between; align-items: center; text-align: center; overflow-y: auto;
+        }
+        .fc-front { background: linear-gradient(145deg, #fff, var(--primary-light)); border: 2.5px solid var(--primary); }
+        .fc-back { background: linear-gradient(145deg, var(--primary), var(--secondary)); color: #fff; transform: rotateY(180deg); }
+
+        /* Focus Timer */
+        .timer-ring {
+            width: 140px; height: 140px; border-radius: 50%;
+            border: 4px dashed var(--primary);
+            background: radial-gradient(circle, #fff, var(--primary-light));
+            margin: 6px auto 10px auto;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+        }
+
+        .hist-item {
+            display: flex; justify-content: space-between; align-items: center; gap: 8px;
+            padding: 8px 10px; background: #f9fafb; border-radius: 13px; margin-bottom: 6px; font-size: 0.78rem;
+        }
+        .del-x {
+            background: #ffe4e6; color: #e11d48; border: none; border-radius: 8px;
+            padding: 4px 7px; font-size: 0.7rem; font-weight: 800; cursor: pointer; flex-shrink: 0;
+        }
+        .chart-wrap { position: relative; height: 215px; width: 100%; }
+
+        .tab-page { display: none; animation: fadeUp 0.22s ease; }
+        .tab-page.active { display: block; }
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Fixed Bottom Nav */
+        .bottom-nav {
+            position: fixed; bottom: 0; left: 0; right: 0;
+            background: rgba(255, 255, 255, 0.96); backdrop-filter: blur(12px);
+            border-top: 2px solid var(--border-soft);
+            padding: 5px 8px calc(5px + env(safe-area-inset-bottom, 0px)) 8px;
+            z-index: 100; box-shadow: 0 -5px 18px rgba(255, 107, 157, 0.12);
+        }
+        .bottom-nav-inner {
+            max-width: 480px; margin: 0 auto;
+            display: grid; grid-template-columns: repeat(5, 1fr); gap: 3px;
+        }
+        .b-nav-btn {
+            background: transparent; border: none; border-radius: 14px; padding: 5px 2px;
+            display: flex; flex-direction: column; align-items: center; gap: 2px;
+            color: var(--text-muted); font-size: 0.66rem; font-weight: 800; cursor: pointer;
+        }
+        .b-nav-btn .ni { font-size: 1.3rem; line-height: 1.1; transition: transform 0.2s; }
+        .b-nav-btn.active { background: var(--primary-light); color: var(--primary-dark); }
+        .b-nav-btn.active .ni { transform: translateY(-2px) scale(1.1); }
+
+        /* Modals */
+        .modal-backdrop {
+            position: fixed; inset: 0; background: rgba(0,0,0,0.48); backdrop-filter: blur(3px);
+            display: none; align-items: flex-end; justify-content: center; z-index: 300;
+        }
+        .modal-backdrop.open { display: flex; }
+        .bottom-sheet {
+            background: #fff; width: 100%; max-width: 480px;
+            border-radius: 26px 26px 0 0;
+            padding: 18px 16px calc(22px + env(safe-area-inset-bottom, 0px)) 16px;
+            max-height: 88vh; overflow-y: auto; animation: sheetUp 0.25s ease;
+        }
+        @keyframes sheetUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+        .sheet-handle { width: 42px; height: 5px; background: #e5e7eb; border-radius: 10px; margin: 0 auto 12px auto; }
+
+        .rule-grid {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 8px;
+        }
+
+        .toast {
+            position: fixed; top: 12px; left: 50%; transform: translateX(-50%) translateY(-100px);
+            background: #fff; border: 2.5px solid var(--primary); color: var(--primary-dark);
+            padding: 9px 16px; border-radius: 30px; font-size: 0.82rem; font-weight: 900;
+            z-index: 500; box-shadow: 0 10px 25px rgba(255, 107, 157, 0.3);
+            transition: transform 0.32s cubic-bezier(0.34, 1.56, 0.64, 1);
+            white-space: nowrap; max-width: 92vw; overflow: hidden; text-overflow: ellipsis;
+        }
+        .toast.show { transform: translateX(-50%) translateY(0); }
+    </style>
+</head>
+<body>
+
+<div id="toast" class="toast">🍓 +۲۰ توت‌فرنگی!</div>
+
+<div class="app-shell">
+    <!-- Top Header -->
+    <header class="top-bar">
+        <div class="top-row">
+            <div class="user-mini">
+                <div class="avatar-bubble" id="hdrAvatar" onclick="openShowcase('plushies')">🐣</div>
+                <div class="user-titles">
+                    <h1 id="hdrName">قهرمان قشنگم ✨</h1>
+                    <span class="sub-pill" id="hdrSubStats">🧠 ۰ تست هوش | 🔥 ۰ روز</span>
+                </div>
+            </div>
+            <div class="hdr-btns">
+                <div class="berry-wallet" onclick="openShowcase('boutique')" title="کیف توت‌فرنگی">
+                    <span>🍓</span><span id="hdrBerries">۰</span>
+                </div>
+                <button class="boutique-btn" onclick="openShowcase('boutique')">🛍️ ویترین</button>
+                <button class="icon-btn" onclick="openSettingsModal()" title="تنظیمات و مربی">⚙️</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- ================= PAGE 1: HOME (ROOM + EGG + FOCUS) ================= -->
+    <section id="page-home" class="tab-page active">
+        <!-- Live Decorated Pet Room -->
+        <div class="pet-room room-bg-default" id="petRoomBox">
+            <div class="room-garland" id="roomGarlandSlot"></div>
+            <div class="room-badge-right" id="roomStreakBadge">🔥 ۰ روز پیوسته</div>
+            <div class="room-badge-left" onclick="openShowcase('boutique')">🎀 چیدمان اتاق</div>
+
+            <div class="room-stage">
+                <div class="room-prop" id="roomPropRight"></div>
+                <div class="pet-character-wrap" id="petWrap" onclick="pokePet()">
+                    <div class="pet-hat" id="petHatSlot"></div>
+                    <div class="pet-body" id="petBodyEmoji">🐣</div>
+                </div>
+                <div class="room-prop" id="roomPropLeft"></div>
+            </div>
+
+            <div style="font-size:0.73rem; font-weight:900; opacity:0.85;" id="petNameLabel">جوجه پنبه‌ای</div>
+            <div class="pet-speech" id="petSpeech">روی من بزن تا باهات حرف بزنم! 💕🍓</div>
+        </div>
+
+        <!-- Next Question-Count Plushie Progress -->
+        <div class="milestone-banner" onclick="openShowcase('plushies')">
+            <div style="font-size:2rem;" id="nextPetPreview">🐰</div>
+            <div style="flex:1; min-width:0;">
+                <div style="display:flex; justify-content:space-between; font-size:0.76rem; font-weight:900;">
+                    <span id="nextPetTitle">عروسک بعدی: خرگوش مارشمالو</span>
+                    <span id="nextPetNums" style="color:var(--primary-dark);">۰ / ۵۰ تست</span>
+                </div>
+                <div class="ms-bar-bg">
+                    <div class="ms-bar-fill" id="nextPetBar" style="width:0%;"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Daily Fluffy Surprise Egg (3 Locks) -->
+        <div class="egg-card">
+            <div class="card-title" style="margin-bottom:8px;">
+                <span>🥚 تخم‌مرغ شانسی امروز</span>
+                <span style="font-size:0.7rem; color:var(--text-muted);" id="todayShamsiBadge"></span>
+            </div>
+            <div class="egg-flex">
+                <div class="egg-visual" id="dailyEggVisual" onclick="tryCrackDailyEgg()">🥚</div>
+                <div class="egg-locks" id="dailyEggLocks"></div>
+            </div>
+            <div id="eggHintText" style="font-size:0.72rem; text-align:center; color:var(--text-muted); margin-top:8px; font-weight:700;">
+                هر ۳ قفل بالا رو سبز کن تا تخم‌مرغ بشکنه و استیکر شانسی بگیری! ✨
+            </div>
+        </div>
+
+        <!-- Focus Hourglass (Anti-Phone) -->
+        <div class="card" style="text-align:center;">
+            <div class="card-title" style="justify-content:center;">⏳ ساعت شنی تمرکز (خداحافظ گوشی!)</div>
+            <div class="chips" style="justify-content:center; margin-bottom:6px;">
+                <div class="chip selected" onclick="setFocusPreset(15, this)">۱۵ دقیقه</div>
+                <div class="chip" onclick="setFocusPreset(25, this)">۲۵ دقیقه</div>
+                <div class="chip" onclick="setFocusPreset(45, this)">۴۵ دقیقه</div>
+            </div>
+            <div class="timer-ring">
+                <div style="font-size:2rem; font-weight:900; color:var(--primary-dark); line-height:1;" id="focusTimeTxt">۱۵:۰۰</div>
+                <div style="font-size:0.66rem; color:var(--text-muted); margin-top:4px;">بدون گوشی ☁️</div>
+            </div>
+            <div style="display:flex; gap:8px;">
+                <button class="btn-fluffy" id="focusStartBtn" onclick="toggleFocus()">شروع تمرکز 🚀</button>
+                <button class="btn-soft" onclick="resetFocus()">🔄</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= PAGE 2: SHAMSI CALENDAR & TRACKER ================= -->
+    <section id="page-cal" class="tab-page">
+        <div class="card">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+                <button class="btn-soft" onclick="shiftCalMonth(-1)">❮ ماه قبل</button>
+                <div style="text-align:center;">
+                    <div style="font-size:0.96rem; font-weight:900; color:var(--primary-dark);" id="calHeaderTitle">فروردین ۱۴۰۴</div>
+                    <span style="font-size:0.68rem; color:var(--primary); font-weight:800; cursor:pointer;" onclick="goTodayCal()">برو به امروز 📍</span>
+                </div>
+                <button class="btn-soft" onclick="shiftCalMonth(1)">ماه بعد ❯</button>
+            </div>
+
+            <div class="cal-weekdays">
+                <div>ش</div><div>ی</div><div>د</div><div>س</div><div>چ</div><div>پ</div><div>ج</div>
+            </div>
+            <div class="cal-grid" id="calDaysGrid"></div>
+
+            <div style="display:flex; justify-content:center; gap:9px; flex-wrap:wrap; margin-top:10px; font-size:0.66rem; color:var(--text-muted); font-weight:700;">
+                <span>🟣 تست IQ</span>
+                <span>🟢 کار مفید</span>
+                <span>🟡 تخم‌مرغ شکسته</span>
+                <span>🔴 رد شدن از سقف گوشی</span>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-title">
+                <span id="calDayTitle">📖 پرونده روز</span>
+            </div>
+            <div class="stats-grid-3" style="margin-bottom:10px;">
+                <div class="mini-stat"><div class="txt">تست‌های روز</div><div class="num" id="calDayQ" style="font-size:0.95rem;">۰</div></div>
+                <div class="mini-stat"><div class="txt">کار مفید</div><div class="num" id="calDayGood" style="font-size:0.95rem;">۰ د</div></div>
+                <div class="mini-stat"><div class="txt">گوشی</div><div class="num" id="calDayPhone" style="font-size:0.95rem;">۰ د</div></div>
+            </div>
+            <div style="display:flex; gap:6px; margin-bottom:10px;">
+                <button class="btn-soft" style="flex:1;" onclick="jumpLogFromCal('iq')">➕ ثبت تست این روز</button>
+                <button class="btn-soft" style="flex:1;" onclick="jumpLogFromCal('time')">➕ ثبت زمان این روز</button>
+            </div>
+            <div id="calDayItems"></div>
+        </div>
+    </section>
+
+    <!-- ================= PAGE 3: IQ CLUB (QUESTION COUNTS + RADAR) ================= -->
+    <section id="page-iq" class="tab-page">
+        <div class="stats-grid-4">
+            <div class="mini-stat">
+                <div class="txt">کل تست‌های زده‌شده 🎯</div>
+                <div class="num" id="iqTotalQuestions">۰ تست</div>
+            </div>
+            <div class="mini-stat">
+                <div class="txt">میانگین وزنی درصد 🧠</div>
+                <div class="num" id="iqWeightedAvg">۰٪</div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-title">
+                <span>🧠 ثبت تست‌های هوش</span>
+                <span id="iqTargetHint" style="font-size:0.7rem; background:var(--primary-light); padding:3px 8px; border-radius:10px;">هدف روز: ۲۵ تست</span>
+            </div>
+
+            <label>مبحث هوش:</label>
+            <div class="chips" id="iqCatChips">
+                <div class="chip selected" onclick="selectIqCat('visual', this)">👁️ تصویری/فضایی</div>
+                <div class="chip" onclick="selectIqCat('verbal', this)">💬 کلامی/ادبی</div>
+                <div class="chip" onclick="selectIqCat('math', this)">🔢 ریاضی/منطقی</div>
+                <div class="chip" onclick="selectIqCat('speed', this)">⚡ سرعت و دقت</div>
+                <div class="chip" onclick="selectIqCat('general', this)">🧩 آزمون جامع</div>
+            </div>
+
+            <label>تعداد کل سوالات (تست‌هایی که زدی):</label>
+            <div class="chips">
+                <div class="chip" onclick="setIqQCount(10)">۱۰ تست</div>
+                <div class="chip" onclick="setIqQCount(15)">۱۵ تست</div>
+                <div class="chip" onclick="setIqQCount(20)">۲۰ تست</div>
+                <div class="chip" onclick="setIqQCount(30)">۳۰ تست</div>
+                <div class="chip" onclick="setIqQCount(50)">۵۰ تست</div>
+            </div>
+            <input type="number" id="iqQCountInp" value="20" min="1" max="300" oninput="calcIqAuto()">
+
+            <div style="background:var(--primary-light); padding:10px; border-radius:15px; margin-bottom:10px;">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+                    <span style="font-size:0.74rem; font-weight:800; color:var(--primary-dark);">🧮 محاسبه خودکار درصد (اختیاری)</span>
+                    <label style="margin:0; font-size:0.7rem; display:flex; align-items:center; gap:4px;">
+                        <input type="checkbox" id="iqNegChk" style="width:auto; margin:0;" onchange="calcIqAuto()"> نمره منفی
+                    </label>
+                </div>
+                <div style="display:grid; grid-template-columns:1fr 1fr; gap:6px;">
+                    <input type="number" id="iqCorInp" placeholder="تعداد درست ✅" oninput="calcIqAuto()" style="margin:0; padding:8px; font-size:14px;">
+                    <input type="number" id="iqWrgInp" placeholder="تعداد غلط ❌" oninput="calcIqAuto()" style="margin:0; padding:8px; font-size:14px;">
+                </div>
+            </div>
+
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px;">
+                <div>
+                    <label>درصد کسب‌شده (۰-۱۰۰):</label>
+                    <input type="number" id="iqPctInp" placeholder="مثلاً ۸۰" min="0" max="100">
+                </div>
+                <div>
+                    <label>تاریخ:</label>
+                    <input type="date" id="iqDateInp">
+                </div>
+            </div>
+
+            <label>نام کتاب یا توضیح کوتاه (اختیاری):</label>
+            <input type="text" id="iqTitleInp" placeholder="مثلاً: هوش کمپلکس صفحه ۴۲">
+
+            <button class="btn-fluffy" onclick="addIqEntry()">ثبت تست‌ها و دریافت توت‌فرنگی 🍓</button>
+        </div>
+
+        <div class="card">
+            <div class="card-title">🕸️ نقشه قدرت‌های هوش من</div>
+            <div class="chart-wrap">
+                <canvas id="iqRadarCanvas"></canvas>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-title">📈 روند درصد آزمون‌های اخیر</div>
+            <div class="chart-wrap">
+                <canvas id="iqLineCanvas"></canvas>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-title">📜 سابقه تست‌های ثبت‌شده</div>
+            <div id="iqHistList"></div>
+        </div>
+    </section>
+
+    <!-- ================= PAGE 4: TIME & PHONE SHIELD ================= -->
+    <section id="page-time" class="tab-page">
+        <div class="card">
+            <div class="card-title">
+                <span>🛡️ وضعیت سقف گوشی امروز</span>
+                <span id="timeShieldNums" style="font-size:0.76rem;">۰ / ۶۰ دقیقه</span>
+            </div>
+            <div class="ms-bar-bg" style="height:12px; margin-bottom:6px;">
+                <div class="ms-bar-fill" id="timeShieldBar" style="width:0%; background:var(--success);"></div>
+            </div>
+            <div id="timeShieldStatus" style="font-size:0.75rem; color:var(--text-muted); font-weight:700;"></div>
+        </div>
+
+        <div class="card">
+            <div class="card-title">⏱️ ثبت فعالیت و ساعت گوشی</div>
+            <div class="chips" id="actCatChips">
+                <div class="chip selected" onclick="selectActCat('study', this)">📚 درس و مطالعه</div>
+                <div class="chip" onclick="selectActCat('phone', this)">📱 گوشی و بازی</div>
+                <div class="chip" onclick="selectActCat('book', this)">📖 کتاب غیردرسی</div>
+                <div class="chip" onclick="selectActCat('art', this)">🎨 هنر و کاردستی</div>
+                <div class="chip" onclick="selectActCat('sport', this)">🏃‍♀️ ورزش و تحرک</div>
+            </div>
+
+            <label>مدت زمان (دقیقه):</label>
+            <div class="chips">
+                <div class="chip" onclick="document.getElementById('actMinInp').value=15">۱۵ د</div>
+                <div class="chip" onclick="document.getElementById('actMinInp').value=30">۳۰ د</div>
+                <div class="chip" onclick="document.getElementById('actMinInp').value=45">۴۵ د</div>
+                <div class="chip" onclick="document.getElementById('actMinInp').value=60">۶۰ د</div>
+            </div>
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px;">
+                <div>
+                    <label>دقیقه:</label>
+                    <input type="number" id="actMinInp" value="30" min="1" max="600">
+                </div>
+                <div>
+                    <label>تاریخ:</label>
+                    <input type="date" id="actDateInp">
+                </div>
+            </div>
+            <label>توضیح کوتاه (اختیاری):</label>
+            <input type="text" id="actNoteInp" placeholder="مثلاً: مطالعه داستان یا بازی با گوشی">
+            <button class="btn-fluffy" onclick="addTimeEntry()">ثبت زمان ✨</button>
+        </div>
+
+        <div class="card">
+            <div class="card-title">🍩 دایره زمان امروز</div>
+            <div class="chart-wrap"><canvas id="timePieCanvas"></canvas></div>
+        </div>
+
+        <div class="card">
+            <div class="card-title">📊 مقایسه ۷ روز اخیر (مفید در برابر گوشی)</div>
+            <div class="chart-wrap"><canvas id="timeBarCanvas"></canvas></div>
+        </div>
+
+        <div class="card">
+            <div class="card-title">🗂️ فعالیت‌های ثبت‌شده اخیر</div>
+            <div id="timeHistList"></div>
+        </div>
+    </section>
+
+    <!-- ================= PAGE 5: SCIENCE LEITNER ================= -->
+    <section id="page-sci" class="tab-page">
+        <div class="pill-tabs">
+            <button class="pill-tab active" onclick="switchSciView('review', this)">🎴 مرور لایتنر</button>
+            <button class="pill-tab" onclick="switchSciView('add', this)">➕ افزودن فکت</button>
+            <button class="pill-tab" onclick="switchSciView('bank', this)">📚 بانک (<span id="sciCntBadge">0</span>)</button>
+        </div>
+
+        <div id="sci-v-review">
+            <div class="leitner-strip" id="leitnerBoxes"></div>
+            <div class="card" style="text-align:center;">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+                    <span id="sciStatusLbl" style="font-size:0.76rem; font-weight:800; color:var(--primary-dark);">آماده مرور!</span>
+                    <button class="btn-soft" style="padding:4px 9px; font-size:0.72rem;" onclick="startFreeSci()">🎲 مرور آزاد</button>
+                </div>
+
+                <div id="fcWrap">
+                    <div class="fc-scene" onclick="flipCard()">
+                        <div class="fc-card" id="theFc">
+                            <div class="fc-face fc-front">
+                                <span style="font-size:0.7rem; background:rgba(255,255,255,0.85); padding:3px 9px; border-radius:10px; font-weight:800; color:var(--primary-dark);" id="fcCat">علمی</span>
+                                <div style="font-size:0.98rem; font-weight:800; line-height:1.65;" id="fcFront">...</div>
+                                <span style="font-size:0.68rem; color:var(--text-muted);">👆 بزن روی کارت تا بچرخه!</span>
+                            </div>
+                            <div class="fc-face fc-back">
+                                <span style="font-size:0.7rem; background:rgba(255,255,255,0.25); padding:3px 9px; border-radius:10px; font-weight:800;" id="fcBox">خانه ۱</span>
+                                <div style="font-size:0.98rem; font-weight:800; line-height:1.65;" id="fcBack">...</div>
+                                <span style="font-size:0.68rem; opacity:0.9;">حالا بگو بلد بودی یا نه 👇</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="fcBtns" style="display:none; gap:8px;">
+                        <button class="btn-fluffy" style="background:linear-gradient(135deg,#10b981,#059669); box-shadow:0 4px 0 #047857;" onclick="gradeCard(true)">✅ بلد بودم!</button>
+                        <button class="btn-fluffy" style="background:linear-gradient(135deg,#f59e0b,#d97706); box-shadow:0 4px 0 #b45309;" onclick="gradeCard(false)">🔄 یادم نبود</button>
+                    </div>
+                </div>
+
+                <div id="fcEmpty" style="display:none; padding:16px 6px;">
+                    <div style="font-size:2.8rem;">🥳🌈</div>
+                    <h3 style="font-size:0.95rem; color:var(--primary-dark); margin:6px 0;">همه کارت‌های نوبت امروز مرور شد!</h3>
+                    <p style="font-size:0.75rem; color:var(--text-muted); margin-bottom:10px;">می‌تونی با مرور آزاد اطلاعات عمومیت رو باز هم قوی‌تر کنی:</p>
+                    <button class="btn-fluffy" onclick="startFreeSci()">🎲 مرور تصادفی کارت‌ها</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="sci-v-add" style="display:none;">
+            <div class="card">
+                <div class="card-title">✨ افزودن تکی فکت علمی</div>
+                <select id="sciAddCat">
+                    <option value="🐾 حیوانات شگفت‌انگیز">🐾 حیوانات شگفت‌انگیز</option>
+                    <option value="🌌 فضا و نجوم">🌌 فضا و نجوم</option>
+                    <option value="🧬 بدن انسان">🧬 بدن انسان</option>
+                    <option value="⚡ فیزیک و شیمی">⚡ فیزیک و شیمی</option>
+                    <option value="🌍 زمین و طبیعت">🌍 زمین و طبیعت</option>
+                    <option value="💡 اطلاعات عمومی">💡 اطلاعات عمومی</option>
+                </select>
+                <label>سوال (روی کارت):</label>
+                <input type="text" id="sciAddF" placeholder="مثلاً: چرا سمورهای دریایی دست هم رو می‌گیرن؟">
+                <label>پاسخ (پشت کارت):</label>
+                <textarea id="sciAddB" rows="2" placeholder="تا موج آب توی خواب اون‌ها رو از هم جدا نکنه!"></textarea>
+                <button class="btn-fluffy" onclick="addSingleFact()">افزودن به جعبه لایتنر 📥</button>
+            </div>
+
+            <div class="card">
+                <div class="card-title">🚀 افزودن جمعی (گروهی)</div>
+                <p style="font-size:0.74rem; color:var(--text-muted); margin-bottom:8px; line-height:1.6;">
+                    هر فکت در <b>یک خط</b>؛ بین سوال و جواب علامت <b>|</b> بگذار:
+                </p>
+                <textarea id="sciBulkTxt" rows="5" placeholder="قلب میگو کجاست؟ | در سرش قرار دارد!
+نزدیک‌ترین سیاره به خورشید کدام است؟ | سیاره عطارد (تیر)"></textarea>
+                <button class="btn-fluffy" onclick="addBulkFacts()">وارد کردن یک‌جای همه فکت‌ها 🌟</button>
+            </div>
+        </div>
+
+        <div id="sci-v-bank" style="display:none;">
+            <div class="card">
+                <div class="card-title">📚 بانک فکت‌های علمی</div>
+                <input type="text" id="sciSearch" placeholder="🔍 جستجو..." oninput="renderFactBank()">
+                <div id="sciBankBox" style="max-height:360px; overflow-y:auto;"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= PAGE 6: MEGA SHOWCASE & BOUTIQUE ================= -->
+    <section id="page-showcase" class="tab-page">
+        <div class="card" style="background:linear-gradient(135deg,#fff0f6,#fef3c7); border-color:#fbcfe8;">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+                <div>
+                    <h2 style="font-size:1rem; font-weight:900; color:var(--primary-dark);">🛍️ بوتیک، عروسک‌ها و افتخارات</h2>
+                    <p style="font-size:0.72rem; color:var(--text-muted); margin-top:2px;">موجودی تو: <b style="color:#be185d;" id="scWalletTxt">۰ 🍓</b></p>
+                </div>
+                <div style="background:#fff; padding:6px 10px; border-radius:14px; border:2px solid #f9a8d4; text-align:center;">
+                    <div style="font-size:0.95rem; font-weight:900; color:var(--primary-dark);" id="scOverallProg">۰٪</div>
+                    <div style="font-size:0.62rem; font-weight:700; color:var(--text-muted);">تکمیل کل</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="pill-tabs" id="scTabs">
+            <button class="pill-tab active" data-sct="boutique" onclick="switchScTab('boutique', this)">🛍️ بوتیک اتاق</button>
+            <button class="pill-tab" data-sct="plushies" onclick="switchScTab('plushies', this)">🧸 عروسک‌ها (۱۵)</button>
+            <button class="pill-tab" data-sct="stickers" onclick="switchScTab('stickers', this)">📒 استیکرها (۳۶)</button>
+            <button class="pill-tab" data-sct="medals" onclick="switchScTab('medals', this)">🏅 مدال‌ها (۳۲)</button>
+        </div>
+
+        <!-- Tab A: Room & Hat Boutique -->
+        <div id="sc-sec-boutique">
+            <div class="card">
+                <div class="card-title">👑 اکسسوری و کلاه عروسک</div>
+                <div class="shop-grid" id="shopHatsGrid"></div>
+            </div>
+            <div class="card">
+                <div class="card-title">🌈 تم و کاغذدیواری اتاق</div>
+                <div class="shop-grid" id="shopWallsGrid"></div>
+            </div>
+            <div class="card">
+                <div class="card-title">🪴 وسایل دکوری و ریسه اتاق</div>
+                <div class="shop-grid" id="shopPropsGrid"></div>
+            </div>
+        </div>
+
+        <!-- Tab B: 15 Milestone Plushies -->
+        <div id="sc-sec-plushies" style="display:none;">
+            <p style="font-size:0.75rem; color:var(--text-muted); margin-bottom:10px; text-align:center; font-weight:700;">
+                عروسک‌های خاص فقط با <b>تعداد تست واقعی</b> و <b>روزهای رعایت سقف گوشی</b> باز می‌شن! 🎯
+            </p>
+            <div class="shop-grid" id="plushiesMilestoneGrid"></div>
+        </div>
+
+        <!-- Tab C: 36 Surprise Egg Stickers -->
+        <div id="sc-sec-stickers" style="display:none;">
+            <div class="card">
+                <div class="card-title">
+                    <span>📒 آلبوم استیکرهای تخم‌مرغ شانسی</span>
+                    <span id="stickerCountLbl" style="font-size:0.75rem;">۰ / ۳۶</span>
+                </div>
+                <div class="sticker-grid" id="stickersAlbumGrid"></div>
+            </div>
+        </div>
+
+        <!-- Tab D: 32 Medals -->
+        <div id="sc-sec-medals" style="display:none;">
+            <div id="medalsContainer"></div>
+        </div>
+    </section>
+</div>
+
+<!-- Fixed Mobile Bottom Navigation -->
+<nav class="bottom-nav">
+    <div class="bottom-nav-inner">
+        <button class="b-nav-btn active" data-tab="home" onclick="navTo('home')">
+            <span class="ni">🏠</span><span>اتاق من</span>
+        </button>
+        <button class="b-nav-btn" data-tab="cal" onclick="navTo('cal')">
+            <span class="ni">📅</span><span>تقویم</span>
+        </button>
+        <button class="b-nav-btn" data-tab="iq" onclick="navTo('iq')">
+            <span class="ni">🧠</span><span>باشگاه IQ</span>
+        </button>
+        <button class="b-nav-btn" data-tab="time" onclick="navTo('time')">
+            <span class="ni">⏱️</span><span>زمان</span>
+        </button>
+        <button class="b-nav-btn" data-tab="sci" onclick="navTo('sci')">
+            <span class="ni">🔬</span><span>لایتنر</span>
+        </button>
+    </div>
+</nav>
+
+<!-- Student Settings & Coach Gateway Modal -->
+<div class="modal-backdrop" id="settingsModal" onclick="if(event.target===this)closeModal('settingsModal')">
+    <div class="bottom-sheet">
+        <div class="sheet-handle"></div>
+        <h3 style="color:var(--primary-dark); font-weight:900; margin-bottom:10px;">🎨 تنظیمات ظاهری و پنل مربی</h3>
+
+        <label>اسم قشنگت:</label>
+        <input type="text" id="stNameInp" placeholder="مثلاً: سارا">
+
+        <label>تم رنگی برنامه:</label>
+        <div class="chips" id="stThemeChips">
+            <div class="chip" data-t="strawberry" onclick="pickAppTheme('strawberry', this)">🍓 توت‌فرنگی</div>
+            <div class="chip" data-t="lavender" onclick="pickAppTheme('lavender', this)">🦄 یاسی</div>
+            <div class="chip" data-t="sky" onclick="pickAppTheme('sky', this)">☁️ آبی پشمکی</div>
+            <div class="chip" data-t="matcha" onclick="pickAppTheme('matcha', this)">🍵 ماچا</div>
+            <div class="chip" data-t="peach" onclick="pickAppTheme('peach', this)">🍑 هلویی</div>
+        </div>
+
+        <button class="btn-fluffy" onclick="saveStudentSettings()" style="margin-bottom:12px;">ذخیره ظاهر برنامه ✨</button>
+
+        <div style="background:#f5f3ff; border:2px solid #ddd6fe; border-radius:18px; padding:12px; margin-bottom:12px;">
+            <div style="font-size:0.82rem; font-weight:900; color:#5b21b6; margin-bottom:6px;">🔐 بخش مربی / برادر بزرگ‌تر</div>
+            <p style="font-size:0.72rem; color:var(--text-muted); margin-bottom:8px;">
+                تعیین دستی سقف مجاز گوشی، حداقل تعداد تست روزانه، ضرایب امتیازها و رمز قفل:
+            </p>
+            <button class="btn-soft" style="width:100%; background:#ede9fe; color:#5b21b6; border-color:#c4b5fd;" onclick="requestOpenCoachPanel()">
+                ⚙️ ورود به پنل تنظیم قوانین و امتیازها
+            </button>
+        </div>
+
+        <div style="display:flex; gap:8px;">
+            <button class="btn-soft" style="flex:1;" onclick="exportBackup()">📤 دانلود پشتیبان</button>
+            <label class="btn-soft" style="flex:1; text-align:center; margin:0; cursor:pointer;">
+                📥 بازیابی پشتیبان
+                <input type="file" accept=".json" style="display:none;" onchange="importBackup(event)">
+            </label>
+        </div>
+    </div>
+</div>
+
+<!-- Coach / Big Brother Rules & Multipliers Modal -->
+<div class="modal-backdrop" id="coachModal" onclick="if(event.target===this)closeModal('coachModal')">
+    <div class="bottom-sheet">
+        <div class="sheet-handle"></div>
+        <h3 style="color:#5b21b6; font-weight:900; margin-bottom:4px;">🔐 پنل تنظیم قوانین و امتیازها</h3>
+        <p style="font-size:0.72rem; color:var(--text-muted); margin-bottom:12px;">هر عددی که اینجا تنظیم کنی، قفل‌های روزانه و جایزه‌ها بر اساس همون کار می‌کنن.</p>
+
+        <div class="rule-grid">
+            <div>
+                <label>📱 سقف گوشی روزانه (دقیقه):</label>
+                <input type="number" id="rlMaxPhone" min="0" max="360">
+            </div>
+            <div>
+                <label>🧠 حداقل تست IQ در روز:</label>
+                <input type="number" id="rlMinIqQ" min="1" max="200">
+            </div>
+            <div>
+                <label>🔬 حداقل مرور لایتنر روز:</label>
+                <input type="number" id="rlMinCards" min="1" max="50">
+            </div>
+            <div>
+                <label>🍓 امتیاز هر ۱ سوال تست:</label>
+                <input type="number" id="rlPtsPerQ" min="1" max="20">
+            </div>
+            <div>
+                <label>🎯 پاداش هدف تست روزانه:</label>
+                <input type="number" id="rlDailyIqBonus" min="0" max="200">
+            </div>
+            <div>
+                <label>🌟 پاداش درصد بالای ۸۰٪:</label>
+                <input type="number" id="rlHighAccBonus" min="0" max="200">
+            </div>
+            <div>
+                <label>🎴 امتیاز هر کارت لایتنر:</label>
+                <input type="number" id="rlPtsPerCard" min="1" max="30">
+            </div>
+            <div>
+                <label>🛑 سقف کارت امتیازدار روز:</label>
+                <input type="number" id="rlMaxPaidCards" min="1" max="100">
+            </div>
+        </div>
+
+        <label>🥚 پاداش شکستن تخم‌مرغ شانسی (رعایت هر ۳ قفل):</label>
+        <input type="number" id="rlEggBonus" min="10" max="300">
+
+        <label>🔑 رمز ۴ رقمی پنل مربی (خالی = بدون رمز):</label>
+        <input type="password" inputmode="numeric" maxlength="6" id="rlPinInp" placeholder="مثلاً 1234">
+
+        <button class="btn-fluffy" onclick="saveCoachRules()" style="margin-bottom:12px;">ذخیره قوانین مربی ✅</button>
+
+        <div style="background:#fffbeb; border:1.5px dashed #f59e0b; border-radius:15px; padding:10px; display:flex; align-items:center; justify-content:space-between; gap:8px;">
+            <span style="font-size:0.75rem; font-weight:800; color:#92400e;">🎁 اهدای توت‌فرنگی تشویقی دستی:</span>
+            <button class="btn-soft" style="background:#fef3c7; color:#92400e; border-color:#f59e0b;" onclick="giftManualBerries()">+۵۰ توت‌فرنگی 🍓</button>
+        </div>
+    </div>
+</div>
+
+<!-- Surprise Sticker Reveal Modal -->
+<div class="modal-backdrop" id="eggRevealModal" onclick="closeModal('eggRevealModal')">
+    <div class="bottom-sheet" style="text-align:center;">
+        <div class="sheet-handle"></div>
+        <div style="font-size:0.82rem; font-weight:900; color:var(--secondary);">🎉 تق! تخم‌مرغ شانسی شکست! 🎉</div>
+        <div id="revStickerEmoji" style="font-size:4.8rem; margin:12px 0; filter:drop-shadow(0 8px 14px rgba(0,0,0,0.15));">🦄</div>
+        <h3 id="revStickerName" style="font-size:1.1rem; font-weight:900; color:var(--primary-dark);">استیکر جدید!</h3>
+        <div id="revStickerRarity" style="font-size:0.78rem; font-weight:800; margin:6px 0 12px 0;">✨ کمیاب</div>
+        <p id="revBonusText" style="font-size:0.82rem; color:var(--success); font-weight:900; margin-bottom:14px;"></p>
+        <button class="btn-fluffy" onclick="closeModal('eggRevealModal')">آخ جون! برو توی آلبومم 💖</button>
+    </div>
+</div>
+
+<script>
+/* =========================================================================
+   1. EXACT SHAMSI (JALALI) CALENDAR ENGINE
+   ========================================================================= */
+const J_MONTHS = ['فروردین','اردیبهشت','خرداد','تیر','مرداد','شهریور','مهر','آبان','آذر','دی','بهمن','اسفند'];
+
+function g2j(gy, gm, gd) {
+    const g_d_m = [0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334];
+    let gy2 = (gm > 2) ? (gy + 1) : gy;
+    let days = 355666 + (365 * gy) + Math.floor((gy2 + 3) / 4) - Math.floor((gy2 + 99) / 100) + Math.floor((gy2 + 399) / 400) + gd + g_d_m[gm - 1];
+    let jy = -1595 + (33 * Math.floor(days / 12053));
+    days %= 12053;
+    jy += 4 * Math.floor(days / 1461);
+    days %= 1461;
+    if (days > 365) { jy += Math.floor((days - 1) / 365); days = (days - 1) % 365; }
+    let jm = (days < 186) ? 1 + Math.floor(days / 31) : 7 + Math.floor((days - 186) / 30);
+    let jd = 1 + ((days < 186) ? (days % 31) : ((days - 186) % 30));
+    return [jy, jm, jd];
+}
+
+function j2g(jy, jm, jd) {
+    jy += 1595;
+    let days = -355668 + (365 * jy) + (Math.floor(jy / 33) * 8) + Math.floor(((jy % 33) + 3) / 4) + jd + ((jm < 7) ? (jm - 1) * 31 : ((jm - 7) * 30) + 186);
+    let gy = 400 * Math.floor(days / 146097);
+    days %= 146097;
+    if (days > 36524) { gy += 100 * Math.floor(--days / 36524); days %= 36524; if (days >= 365) days++; }
+    gy += 4 * Math.floor(days / 1461);
+    days %= 1461;
+    if (days > 365) { gy += Math.floor((days - 1) / 365); days = (days - 1) % 365; }
+    let gd = days + 1;
+    const sal_a = [0, 31, ((gy % 4 === 0 && gy % 100 !== 0) || (gy % 400 === 0)) ? 29 : 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+    let gm;
+    for (gm = 0; gm < 13 && gd > sal_a[gm]; gm++) gd -= sal_a[gm];
+    return [gy, gm, gd];
+}
+
+function jMonthLen(jy, jm) {
+    if (jm <= 6) return 31;
+    if (jm <= 11) return 30;
+    const [gy, gm, gd] = j2g(jy, 12, 30);
+    const [rjy, rjm, rjd] = g2j(gy, gm, gd);
+    return (rjy === jy && rjm === 12 && rjd === 30) ? 30 : 29;
+}
+
+function makeISO(gy, gm, gd) {
+    return `${gy}-${String(gm).padStart(2,'0')}-${String(gd).padStart(2,'0')}`;
+}
+function todayISO() {
+    const d = new Date();
+    return makeISO(d.getFullYear(), d.getMonth() + 1, d.getDate());
+}
+function isoToShamsi(iso) {
+    if (!iso) return '';
+    const [gy, gm, gd] = iso.split('-').map(Number);
+    const [jy, jm, jd] = g2j(gy, gm, gd);
+    return `${fa(jd)} ${J_MONTHS[jm - 1]} ${fa(jy)}`;
+}
+function fa(n) {
+    if (n === null || n === undefined) return '';
+    return String(n).replace(/\d/g, d => '۰۱۲۳۴۵۶۷۸۹'[d]);
+}
+
+/* =========================================================================
+   2. GAME CATALOGS: 15 MILESTONE PLUSHIES, BOUTIQUE, 36 STICKERS, 36 FACTS
+   ========================================================================= */
+// Unlocked STRICTLY by real Question Counts ('iq') or Low-Phone Egg Days ('shield')!
+const PLUSHIES = [
+    { id:'p1',  emoji:'🐣', name:'جوجه پنبه‌ای',       type:'free',   req:0,    msg:'من از روز اول کنارتم تا با هم بترکونیم! 🐣💕' },
+    { id:'p2',  emoji:'🐰', name:'خرگوش مارشمالو',     type:'iq',     req:50,   msg:'آفرین! ۵۰ تا تست زدی و من بیدار شدم! 🐰🍓' },
+    { id:'p3',  emoji:'🐹', name:'همستر فندقی',        type:'shield', req:3,    msg:'۳ روز سقف گوشی رو رعایت کردی! چه اراده‌ای! 🐹👏' },
+    { id:'p4',  emoji:'🐱', name:'پیشی توت‌فرنگی',     type:'iq',     req:100,  msg:'میووو! رکورد ۱۰۰ تست هوش مبارک باشه! 🐱🌸' },
+    { id:'p5',  emoji:'🐼', name:'پاندای بامبو',       type:'iq',     req:200,  msg:'۲۰۰ تا تست! مغزت داره روزبه‌روز قوی‌تر میشه 🐼🌿' },
+    { id:'p6',  emoji:'🐨', name:'کوآلای ابری',        type:'iq',     req:350,  msg:'۳۵۰ تست! بیا بغلم قهرمان سخت‌کوش 🐨☁️' },
+    { id:'p7',  emoji:'🦦', name:'سمور مرواریدی',      type:'shield', req:10,   msg:'۱۰ روز قهرمانِ ضدگوشی شدی! بهت افتخار می‌کنم 🦦💎' },
+    { id:'p8',  emoji:'🦊', name:'روباه پشمالو',       type:'iq',     req:500,  msg:'نصفِ هزار تا! ۵۰۰ تست هوش رو پشت سر گذاشتی! 🦊🔥' },
+    { id:'p9',  emoji:'🐧', name:'پنگوئن بستنی‌خور',   type:'iq',     req:750,  msg:'۷۵۰ تست! خنک و باحال داری پیش میری 🐧🍦' },
+    { id:'p10', emoji:'🐻‍❄️', name:'خرس قطبی بوبا',     type:'iq',     req:1000, msg:'وااای ۱۰۰۰ تست! تو رسماً وارد باشگاه هزارتایی‌ها شدی! 🐻‍❄️🧋' },
+    { id:'p11', emoji:'🦌', name:'آهوی شکوفه‌ای',      type:'shield', req:25,   msg:'۲۵ روز کنترل عالی گوشی! چشم‌هات و ذهنت درخشانن 🦌🌸' },
+    { id:'p12', emoji:'🦙', name:'لامای رنگین‌کمانی',   type:'iq',     req:1400, msg:'۱۴۰۰ تست! پشم‌های رنگیم به افتخارت می‌رقصن 🦙🌈' },
+    { id:'p13', emoji:'🦢', name:'قوی پشمک‌طلایی',     type:'iq',     req:1800, msg:'۱۸۰۰ تست! پشتکار تو واقعاً ستودنیه ملکه باهوش 🦢👑' },
+    { id:'p14', emoji:'🐉', name:'اژدهای پاستلی',      type:'shield', req:45,   msg:'۴۵ روز پیروزی روی گوشی! من اژدهای محافظ تمرکزتم 🐉💖' },
+    { id:'p15', emoji:'🦄', name:'تک‌شاخ افسانه‌ای',    type:'iq',     req:2500, msg:'۲۵۰۰ تست هوش!! تو قله کهکشان رو فتح کردی افسانه‌ای! 🦄🌈👑' }
+];
+
+const BOUTIQUE_HATS = [
+    { id:'hat_none',   emoji:'❌', name:'بدون کلاه',      cost:0 },
+    { id:'hat_bow',    emoji:'🎀', name:'پاپیون صورتی',    cost:90 },
+    { id:'hat_flower', emoji:'🌸', name:'گل شکوفه',       cost:160 },
+    { id:'hat_star',   emoji:'🌟', name:'ستاره درخشان',    cost:260 },
+    { id:'hat_party',  emoji:'🥳', name:'فشفشه جشن',      cost:380 },
+    { id:'hat_grad',   emoji:'🎓', name:'کلاه فارغ‌التحصیلی', cost:520 },
+    { id:'hat_magic',  emoji:'🎩', name:'کلاه شعبده‌بازی',  cost:680 },
+    { id:'hat_tiara',  emoji:'💎', name:'نیم‌تاج الماس',    cost:880 },
+    { id:'hat_crown',  emoji:'👑', name:'تاج سلطنتی طلایی', cost:1200 }
+];
+
+const BOUTIQUE_WALLS = [
+    { id:'room-bg-default', emoji:'🍓', name:'اتاق توت‌فرنگی',   cost:0 },
+    { id:'room-bg-sakura',  emoji:'🌸', name:'باغ شکوفه ژاپنی',  cost:280 },
+    { id:'room-bg-cloud',   emoji:'☁️', name:'قصر ابرهای پنبه‌ای', cost:480 },
+    { id:'room-bg-rainbow', emoji:'🌈', name:'پنجره رنگین‌کمانی', cost:720 },
+    { id:'room-bg-candy',   emoji:'🍭', name:'کلبه آب‌نباتی',     cost:980 },
+    { id:'room-bg-galaxy',  emoji:'🌌', name:'رصدخانه کهکشانی',  cost:1350 }
+];
+
+// slot: 'garland' (top), 'right' (right side of pet), 'left' (left side of pet)
+const BOUTIQUE_PROPS = [
+    { id:'prop_plant',   slot:'right',   emoji:'🪴', name:'گلدون کوچولو',     cost:110 },
+    { id:'prop_cupcake', slot:'left',    emoji:'🧁', name:'کاپ‌کیک فلافی',    cost:180 },
+    { id:'prop_gar1',    slot:'garland', emoji:'✨🌸✨🌸✨', name:'ریسه شکوفه و نور', cost:320 },
+    { id:'prop_boba',    slot:'left',    emoji:'🧋', name:'میز بوبا چای',     cost:390 },
+    { id:'prop_books',   slot:'right',   emoji:'📚', name:'قفسه کتاب رنگی',   cost:490 },
+    { id:'prop_gar2',    slot:'garland', emoji:'⭐🌙☁️🌙⭐', name:'ریسه ماه و ستاره', cost:620 },
+    { id:'prop_tele',    slot:'right',   emoji:'🔭', name:'تلسکوپ نجومی',    cost:820 },
+    { id:'prop_teddy',   slot:'left',    emoji:'🧸', name:'خرس عروسکی دوست',  cost:950 },
+    { id:'prop_gar3',    slot:'garland', emoji:'🌈💖🦄💖🌈', name:'ریسه سلطنتی تک‌شاخ', cost:1150 }
+];
+
+const EGG_STICKERS = [
+    // Common (16)
+    { id:'s1',  e:'🍓', n:'توت‌فرنگی خندان', r:'common' }, { id:'s2',  e:'🍒', n:'گیلاس دوقلو', r:'common' },
+    { id:'s3',  e:'🍑', n:'هلوی مخملی', r:'common' },     { id:'s4',  e:'🧁', n:'مافین وانیلی', r:'common' },
+    { id:'s5',  e:'🍩', n:'دونات شکلاتی', r:'common' },    { id:'s6',  e:'🍪', n:'کوکی گردویی', r:'common' },
+    { id:'s7',  e:'🍡', n:'مارشمالو سیخی', r:'common' },   { id:'s8',  e:'🍦', n:'بستنی قیفی', r:'common' },
+    { id:'s9',  e:'🌷', n:'لاله صورتی', r:'common' },     { id:'s10', e:'🌻', n:'آفتابگردان شاد', r:'common' },
+    { id:'s11', e:'🍀', n:'شبدر چهارپر', r:'common' },    { id:'s12', e:'🍄', n:'قارچ خال‌خالی', r:'common' },
+    { id:'s13', e:'🐝', n:'زنبور پشمالو', r:'common' },    { id:'s14', e:'🐞', n:'کفشدوزک خوش‌شانس', r:'common' },
+    { id:'s15', e:'🐥', n:'جوجه طلایی', r:'common' },      { id:'s16', e:'🐢', n:'لاک‌پشت دانا', r:'common' },
+    // Glitter (10)
+    { id:'s17', e:'🦩', n:'فلامینگوی صورتی', r:'glitter' }, { id:'s18', e:'🦚', n:'طاووس اکلیلی', r:'glitter' },
+    { id:'s19', e:'🐬', n:'دلفین نقره‌ای', r:'glitter' },   { id:'s20', e:'🦋', n:'پروانه بلورین', r:'glitter' },
+    { id:'s21', e:'🍧', n:'یخ‌در‌بهشت رنگی', r:'glitter' }, { id:'s22', e:'🍭', n:'آب‌نبات چوبی', r:'glitter' },
+    { id:'s23', e:'🎀', n:'روبان ابریشمی', r:'glitter' },   { id:'s24', e:'🫧', n:'حباب‌های جادویی', r:'glitter' },
+    { id:'s25', e:'🐚', n:'صدف مرواریددار', r:'glitter' },  { id:'s26', e:'🎠', n:'اسب چرخ‌وفلک', r:'glitter' },
+    // Magical (6)
+    { id:'s27', e:'🔮', n:'گوی بلورین علم', r:'magic' },   { id:'s28', e:'🪄', n:'چوب‌دستی ستاره‌ای', r:'magic' },
+    { id:'s29', e:'🧜‍♀️', n:'پری دریایی مهربان', r:'magic' }, { id:'s30', e:'🧚‍♀️', n:'پری شکوفه‌ها', r:'magic' },
+    { id:'s31', e:'🪐', n:'زحل حلقه‌طلایی', r:'magic' },   { id:'s32', e:'🌠', n:'شهاب‌سنگ آرزو', r:'magic' },
+    // Legendary (4)
+    { id:'s33', e:'🦄', n:'یونیکورن الماسی', r:'legend' },  { id:'s34', e:'👑', n:'تاج هوش کهکشان', r:'legend' },
+    { id:'s35', e:'🏰', n:'قصر ابرهای صورتی', r:'legend' }, { id:'s36', e:'💎', n:'الماس اراده آهنین', r:'legend' }
+];
+
+const INITIAL_FACTS = [
+    { cat:"🐾 حیوانات شگفت‌انگیز", f:"چرا سمورهای دریایی موقع خواب دست همدیگر را می‌گیرند؟", b:"تا جریان آب دریا در خواب آن‌ها را از هم جدا نکند! 🦦💕" },
+    { cat:"🐾 حیوانات شگفت‌انگیز", f:"قلب میگو کجای بدنش قرار دارد؟", b:"در سرش قرار دارد!" },
+    { cat:"🌌 فضا و نجوم", f:"کدام سیاره منظومه شمسی برعکس بقیه به دور خودش می‌چرخد؟", b:"سیاره زهره (ناهید)! در آنجا خورشید از غرب طلوع می‌کند." },
+    { cat:"💡 اطلاعات عمومی", f:"تنها ماده غذایی طبیعی که هرگز فاسد نمی‌شود چیست؟", b:"عسل طبیعی! حتی بعد از ۳۰۰۰ سال هم قابل خوردن می‌ماند." },
+    { cat:"🐾 حیوانات شگفت‌انگیز", f:"اختاپوس چند قلب دارد و خونش چه رنگی است؟", b:"۳ قلب دارد و خونش به خاطر وجود عنصر مس، آبی‌رنگ است!" },
+    { cat:"🧬 بدن انسان", f:"کوچک‌ترین استخوان بدن انسان در کجا قرار دارد؟", b:"استخوان رکابی در گوش میانی که هم‌اندازه یک دانه برنج است!" },
+    { cat:"🌌 فضا و نجوم", f:"نور خورشید چقدر طول می‌کشد تا به زمین برسد؟", b:"حدود ۸ دقیقه و ۲۰ ثانیه!" },
+    { cat:"🐾 حیوانات شگفت‌انگیز", f:"کدام حیوان اثر انگشتی تقریباً شبیه به انسان دارد؟", b:"کوآلا! حتی زیر میکروسکوپ هم تشخیصش از اثر انگشت انسان سخت است 🐨" },
+    { cat:"⚡ فیزیک و شیمی", f:"الماس درخشان و نوک مداد سیاه چه شباهتی دارند؟", b:"هر دو فقط از اتم‌های عنصر «کربن» ساخته شده‌اند!" },
+    { cat:"🐾 حیوانات شگفت‌انگیز", f:"پروانه‌ها مزه گل‌ها را با کجای بدنشان می‌چشند؟", b:"با گیرنده‌های چشایی کف پاهایشان! 🦋" },
+    { cat:"🌍 زمین و طبیعت", f:"چرا آسمان در روز آبی دیده می‌شود؟", b:"چون جو زمین نور آبی خورشید را بیشتر از رنگ‌های دیگر پراکنده می‌کند." },
+    { cat:"🐾 حیوانات شگفت‌انگیز", f:"کدام پرنده می‌تواند به سمت عقب هم پرواز کند؟", b:"مرغ مگس‌خوار! که تا ۸۰ بار در ثانیه بال می‌زند." },
+    { cat:"🌌 فضا و نجوم", f:"آیا در فضای خارج از جو زمین صدا شنیده می‌شود؟", b:"خیر! چون در فضا هوا وجود ندارد تا امواج صوتی را منتقل کند." },
+    { cat:"🐾 حیوانات شگفت‌انگیز", f:"زرافه با آن گردن بسیار بلندش چند مهره در گردن دارد؟", b:"فقط ۷ مهره! دقیقاً هم‌تعداد مهره‌های گردن انسان." },
+    { cat:"⚡ فیزیک و شیمی", f:"کدام فلز در دمای معمولی اتاق مایع است؟", b:"جیوه!" },
+    { cat:"🐾 حیوانات شگفت‌انگیز", f:"کدام پستاندار غول‌پیکر خشکی اصلاً نمی‌تواند بپرد؟", b:"فیل! 🐘" },
+    { cat:"🧬 بدن انسان", f:"بزرگ‌ترین اندام بدن انسان کدام است؟", b:"پوست بدن!" },
+    { cat:"🌌 فضا و نجوم", f:"بزرگ‌ترین سیاره منظومه شمسی کدام است؟", b:"سیاره مشتری (هرمز) که بیش از ۱۳۰۰ کره زمین درونش جا می‌شود!" },
+    { cat:"🐾 حیوانات شگفت‌انگیز", f:"چرا فلامینگوها صورتی‌رنگ می‌شوند؟", b:"به خاطر رنگدانه‌های موجود در میگوها و جلبک‌هایی که می‌خورند 🦩" },
+    { cat:"🌍 زمین و طبیعت", f:"بیشترین اکسیژن کره زمین توسط چه منبعی تولید می‌شود؟", b:"توسط فیتوپلانکتون‌ها و جلبک‌های اقیانوس‌ها (حتی بیشتر از جنگل‌ها!)." },
+    { cat:"🧬 بدن انسان", f:"کدام بخش چشم انسان هیچ رگ خونی ندارد؟", b:"قرنیه چشم! اکسیژن مورد نیازش را مستقیم از هوا می‌گیرد." },
+    { cat:"🐾 حیوانات شگفت‌انگیز", f:"دلفین‌ها چطور در آب می‌خوابند که غرق نشوند؟", b:"نیمی از مغزشان می‌خوابد و نیم دیگر با یک چشم باز بیدار می‌ماند! 🐬" },
+    { cat:"⚡ فیزیک و شیمی", f:"چرا یخ روی آب شناور می‌ماند؟", b:"چون آب هنگام یخ زدن منبسط شده و چگالی‌اش کمتر از آب مایع می‌شود." },
+    { cat:"🌌 فضا و نجوم", f:"چرا سیاره مریخ به سیاره سرخ معروف است؟", b:"به خاطر وجود مقدار زیادی اکسید آهن (زنگ آهن) در خاک سطح آن." },
+    { cat:"🐾 حیوانات شگفت‌انگیز", f:"آیا گاوها بهترین دوست صمیمی دارند؟", b:"بله! گاوها دوست صمیمی انتخاب می‌کنند و کنار هم آرامش بیشتری دارند 🐮" },
+    { cat:"🧬 بدن انسان", f:"مغز انسان در بیداری چقدر الکتریسیته تولید می‌کند؟", b:"حدود ۲۰ وات؛ به اندازه روشن کردن یک لامپ کم‌مصرف کوچک! 💡" },
+    { cat:"🌌 فضا و نجوم", f:"ردپای فضانوردان روی کره ماه تا چه زمانی می‌ماند؟", b:"میلیون‌ها سال! چون در ماه باد و بارانی وجود ندارد." },
+    { cat:"🐾 حیوانات شگفت‌انگیز", f:"سریع‌ترین پرنده جهان در شیرجه کدام است؟", b:"شاهین بحری با سرعت بیش از ۳۰۰ کیلومتر بر ساعت!" },
+    { cat:"🌍 زمین و طبیعت", f:"رنگین‌کمان چگونه در آسمان پدید می‌آید؟", b:"با شکست و تجزیه نور سفید خورشید درون قطره‌های ریز باران 🌈" },
+    { cat:"⚡ فیزیک و شیمی", f:"واحد اندازه‌گیری نیرو در فیزیک چیست؟", b:"نیوتن!" },
+    { cat:"🐾 حیوانات شگفت‌انگیز", f:"حلزون در هوای خشک تا چه مدت می‌تواند بخوابد؟", b:"تا ۳ سال متوالی! 🐌" },
+    { cat:"🌌 فضا و نجوم", f:"یک سال در سیاره عطارد چند روز زمینی است؟", b:"فقط ۸۸ روز!" },
+    { cat:"🧬 بدن انسان", f:"چند درصد مغز انسان از آب تشکیل شده است؟", b:"بیش از ۷۳ درصد! نوشیدن آب به تمرکز و هوش کمک زیادی می‌کند 💧" },
+    { cat:"🐾 حیوانات شگفت‌انگیز", f:"آیا پنگوئن‌ها دندان دارند؟", b:"نه! به جای دندان پرزهای خارمانندی در دهان دارند تا ماهی سر نخورد 🐧" },
+    { cat:"🌍 زمین و طبیعت", f:"داغ‌ترین لایه درونی زمین کجاست؟", b:"هسته درونی زمین با دمای حدود ۵۵۰۰ درجه سانتی‌گراد." },
+    { cat:"🌌 فضا و نجوم", f:"چگالی سیاره زحل چه ویژگی عجیبی دارد؟", b:"از آب سبک‌تر است! اگر اقیانوسی به آن بزرگی بود، زحل روی آب شناور می‌ماند 🪐" }
+];
+
+/* =========================================================================
+   3. STATE & CONFIGURABLE COACH RULES
+   ========================================================================= */
+const STORAGE_KEY = 'fluffySmartWorld_v3';
+let state = loadState();
+
+let calJY = 1404, calJM = 1;
+let selISO = todayISO();
+let selIqCat = 'visual';
+let selActCat = 'study';
+let tempAppTheme = state.profile.theme || 'strawberry';
+
+let iqRadarChart = null, iqLineChart = null, timePieChart = null, timeBarChart = null;
+let focusMins = 15, focusSecs = 900, focusTimer = null;
+let sciQueue = [], curCard = null, isFreeMode = false;
+
+function defaultRules() {
+    return {
+        maxPhoneMins: 60,       // 1 hour default max phone
+        minDailyQuestions: 25,  // min 25 IQ questions per day
+        minDailyCards: 5,       // min 5 Leitner reviews per day
+        ptsPerQuestion: 1,      // 1 strawberry per question
+        dailyIqBonus: 30,       // +30 bonus when hitting daily IQ target
+        highAccBonus: 20,       // +20 bonus for >=80% on >=10 questions
+        ptsPerCard: 4,          // 4 strawberries per card
+        maxPaidCardsPerDay: 15, // daily cap on Leitner berries
+        eggBonus: 45,           // +45 berries when cracking daily egg
+        coachPin: ''            // optional 4-digit PIN
+    };
+}
+
+function loadState() {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (raw) {
+        try {
+            const p = JSON.parse(raw);
+            p.rules = { ...defaultRules(), ...(p.rules || {}) };
+            if (!p.boutique) p.boutique = { owned:['hat_none','room-bg-default'], hat:'hat_none', wall:'room-bg-default', garland:'', right:'', left:'' };
+            if (!p.stickers) p.stickers = [];
+            if (!p.dailyLogs) p.dailyLogs = {};
+            if (!p.claimedMedals) p.claimedMedals = [];
+            return p;
+        } catch(e) {}
+    }
+    const now = Date.now();
+    return {
+        profile: {
+            name: 'قهرمان قشنگم',
+            theme: 'strawberry',
+            berries: 30, // Starter welcome berries!
+            equippedPet: 'p1',
+            totalSciReviews: 0,
+            totalFocusDone: 0
+        },
+        rules: defaultRules(),
+        boutique: {
+            owned: ['hat_none', 'room-bg-default'],
+            hat: 'hat_none',
+            wall: 'room-bg-default',
+            garland: '',
+            right: '',
+            left: ''
+        },
+        stickers: [], // array of owned sticker IDs
+        claimedMedals: [],
+        iqTests: [],   // { id, date, cat, title, qCount, percent, earnedPts }
+        activities: [],// { id, date, cat, minutes, note, earnedPts }
+        dailyLogs: {}, // { 'YYYY-MM-DD': { sciReviews:0, paidCards:0, iqGoalPaid:false, eggCracked:false } }
+        cards: INITIAL_FACTS.map((x, i) => ({
+            id: 'f_' + i, cat: x.cat, front: x.f, back: x.b, box: 1, nextReview: now
+        }))
+    };
+}
+
+function getDayLog(iso) {
+    if (!state.dailyLogs[iso]) {
+        state.dailyLogs[iso] = { sciReviews: 0, paidCards: 0, iqGoalPaid: false, eggCracked: false };
+    }
+    return state.dailyLogs[iso];
+}
+
+function saveState() {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    checkMedalsAndPlushies();
+    renderHeaderAndRoom();
+}
+
+/* =========================================================================
+   4. CORE METRICS, ANTI-EXPLOIT & MEDALS (32 MEDALS)
+   ========================================================================= */
+function getTotalQuestions() {
+    return state.iqTests.reduce((s, t) => s + (t.qCount || 1), 0);
+}
+function getCrackedEggDaysCount() {
+    return Object.values(state.dailyLogs).filter(d => d.eggCracked).length;
+}
+function isDateActive(iso) {
+    return state.iqTests.some(t => t.date === iso) ||
+           state.activities.some(a => a.date === iso && a.cat !== 'phone') ||
+           (state.dailyLogs[iso]?.sciReviews > 0);
+}
+function getActiveDaysCount() {
+    const s = new Set();
+    state.iqTests.forEach(t => s.add(t.date));
+    state.activities.filter(a => a.cat !== 'phone').forEach(a => s.add(a.date));
+    Object.keys(state.dailyLogs).forEach(k => { if (state.dailyLogs[k].sciReviews > 0) s.add(k); });
+    return s.size;
+}
+function getCurrentStreak() {
+    let st = 0;
+    const d = new Date();
+    const tIso = makeISO(d.getFullYear(), d.getMonth()+1, d.getDate());
+    if (!isDateActive(tIso)) d.setDate(d.getDate() - 1);
+    for (let i = 0; i < 400; i++) {
+        const iso = makeISO(d.getFullYear(), d.getMonth()+1, d.getDate());
+        if (isDateActive(iso)) { st++; d.setDate(d.getDate() - 1); }
+        else break;
+    }
+    return st;
+}
+function isPlushieUnlocked(p) {
+    if (p.type === 'free') return true;
+    if (p.type === 'iq') return getTotalQuestions() >= p.req;
+    if (p.type === 'shield') return getCrackedEggDaysCount() >= p.req;
+    return false;
+}
+
+function getAllMedals() {
+    const totQ = getTotalQuestions();
+    const visQ = state.iqTests.filter(t => t.cat === 'visual').reduce((s,t)=>s+t.qCount, 0);
+    const verQ = state.iqTests.filter(t => t.cat === 'verbal').reduce((s,t)=>s+t.qCount, 0);
+    const matQ = state.iqTests.filter(t => t.cat === 'math').reduce((s,t)=>s+t.qCount, 0);
+    const spdQ = state.iqTests.filter(t => t.cat === 'speed').reduce((s,t)=>s+t.qCount, 0);
+    const acc85 = state.iqTests.filter(t => t.percent >= 85 && t.qCount >= 10).length;
+    const acc100 = state.iqTests.filter(t => t.percent === 100 && t.qCount >= 10).length;
+
+    const actDays = getActiveDaysCount();
+    const streak = getCurrentStreak();
+    const eggDays = getCrackedEggDaysCount();
+    const focusCnt = state.profile.totalFocusDone || 0;
+    const goodMins = state.activities.filter(a => a.cat !== 'phone').reduce((s,a)=>s+a.minutes, 0);
+    const bookArtMins = state.activities.filter(a => a.cat === 'book' || a.cat === 'art' || a.cat === 'sport').reduce((s,a)=>s+a.minutes, 0);
+    const sciRevs = state.profile.totalSciReviews || 0;
+    const box5 = state.cards.filter(c => c.box === 5).length;
+
+    return [
+        // IQ Question Volume & Accuracy (14)
+        { id:'md1',  ic:'🐣', t:'گام اول تیزهوشان', d:'حل ۵۰ تست هوش', cur:totQ, max:50, rw:25 },
+        { id:'md2',  ic:'🧩', t:'صدتایی باانگیزه', d:'حل ۱۰۰ تست هوش', cur:totQ, max:100, rw:40 },
+        { id:'md3',  ic:'🎯', t:'تیرانداز ۲۵۰ تایی', d:'حل ۲۵۰ تست هوش', cur:totQ, max:250, rw:70 },
+        { id:'md4',  ic:'🦊', t:'شکارچی ۵۰۰ تست', d:'حل ۵۰۰ تست هوش', cur:totQ, max:500, rw:120 },
+        { id:'md5',  ic:'🔥', t:'باشگاه هزارتایی‌ها!', d:'حل ۱۰۰۰ تست هوش', cur:totQ, max:1000, rw:250 },
+        { id:'md6',  ic:'🚀', t:'ستاره ۱۵۰۰ تست', d:'حل ۱۵۰۰ تست هوش', cur:totQ, max:1500, rw:320 },
+        { id:'md7',  ic:'👑', t:'ملکه ۲۰۰۰ تست', d:'حل ۲۰۰۰ تست هوش', cur:totQ, max:2000, rw:450 },
+        { id:'md8',  ic:'🦄', t:'افسانه ۳۰۰۰ تست!', d:'حل ۳۰۰۰ تست هوش', cur:totQ, max:3000, rw:650 },
+        { id:'md9',  ic:'👁️', t:'استاد هوش تصویری', d:'۲۰۰ تست هوش تصویری و فضایی', cur:visQ, max:200, rw:90 },
+        { id:'md10', ic:'💬', t:'استاد هوش کلامی', d:'۲۰۰ تست هوش کلامی و ادبی', cur:verQ, max:200, rw:90 },
+        { id:'md11', ic:'🔢', t:'استاد هوش ریاضی', d:'۲۰۰ تست هوش ریاضی و منطقی', cur:matQ, max:200, rw:90 },
+        { id:'md12', ic:'⚡', t:'صاعقه سرعت و دقت', d:'۲۰۰ تست سرعت و دقت', cur:spdQ, max:200, rw:90 },
+        { id:'md13', ic:'🌟', t:'دقت الماسی', d:'۱۵ بار کسب درصد بالای ۸۵٪ (حداقل ۱۰ سوال)', cur:acc85, max:15, rw:140 },
+        { id:'md14', ic:'💯', t:'بی‌نقص و طلایی', d:'کسب درصد ۱۰۰٪ در یک تست (حداقل ۱۰ سوال)', cur:acc100, max:1, rw:100 },
+
+        // Consistency & Calendar (6)
+        { id:'md15', ic:'🌸', t:'شکوفه هفته اول', d:'۷ روز فعالیت مفید در تقویم', cur:actDays, max:7, rw:50 },
+        { id:'md16', ic:'🎀', t:'دو هفته درخشان', d:'۱۴ روز فعالیت مفید در تقویم', cur:actDays, max:14, rw:90 },
+        { id:'md17', ic:'🌙', t:'قهرمان یک‌ماهه', d:'۳۰ روز فعالیت مفید در تقویم', cur:actDays, max:30, rw:200 },
+        { id:'md18', ic:'🏰', t:'امپراتوری دوماهه!', d:'۶۰ روز فعالیت در تقویم (۲ ماه کامل!)', cur:actDays, max:60, rw:500 },
+        { id:'md19', ic:'🔗', t:'زنجیره ۱۰ روزه', d:'۱۰ روز پیوسته بدون جا انداختن', cur:streak, max:10, rw:110 },
+        { id:'md20', ic:'💖', t:'عادت جادویی ۲۱ روزه', d:'۲۱ روز پیوسته بدون وقفه!', cur:streak, max:21, rw:260 },
+
+        // Anti-Phone, Egg & Useful Time (8)
+        { id:'md21', ic:'🥚', t:'شکستن ۳ تخم‌مرغ', d:'۳ روز تکمیل هر ۳ قفل و رعایت سقف گوشی', cur:eggDays, max:3, rw:45 },
+        { id:'md22', ic:'🛡️', t:'سپر نقره‌ای (۱۰ روز)', d:'۱۰ روز شکستن تخم‌مرغ شانسی و کنترل گوشی', cur:eggDays, max:10, rw:120 },
+        { id:'md23', ic:'🥇', t:'سپر طلایی (۲۵ روز)', d:'۲۵ روز رعایت کامل سقف گوشی و اهداف', cur:eggDays, max:25, rw:280 },
+        { id:'md24', ic:'💠', t:'سپر الماسی (۵۰ روز)', d:'۵۰ روز رعایت کامل سقف گوشی و اهداف!', cur:eggDays, max:50, rw:550 },
+        { id:'md25', ic:'⏳', t:'استاد ساعت شنی', d:'۱۵ بار تکمیل تایمر تمرکز بدون گوشی', cur:focusCnt, max:15, rw:120 },
+        { id:'md26', ic:'🎨', t:'دختر چندبعدی', d:'۶۰۰ دقیقه کتاب داستان، هنر و ورزش', cur:bookArtMins, max:600, rw:150 },
+        { id:'md27', ic:'📚', t:'۲۰ ساعت تلاش مفید', d:'۱۲۰۰ دقیقه کار مفید بدون گوشی', cur:goodMins, max:1200, rw:180 },
+        { id:'md28', ic:'🌌', t:'۶۰ ساعت طلایی!', d:'۳۶۰۰ دقیقه (۶۰ ساعت) کار مفید کل!', cur:goodMins, max:3600, rw:450 },
+
+        // Science Leitner (4)
+        { id:'md29', ic:'🔬', t:'کاوشگر علم', d:'مرور ۳۰ کارت در جعبه لایتنر', cur:sciRevs, max:30, rw:40 },
+        { id:'md30', ic:'🧪', t:'دانشمند جوان', d:'مرور ۱۵۰ کارت در جعبه لایتنر', cur:sciRevs, max:150, rw:120 },
+        { id:'md31', ic:'🔭', t:'استاد دائرةالمعارف', d:'مرور ۴۰۰ کارت علمی در لایتنر', cur:sciRevs, max:400, rw:280 },
+        { id:'md32', ic:'🎓', t:'حافظه ابدی', d:'رساندن ۳۰ فکت علمی به خانه ۵ لایتنر', cur:box5, max:30, rw:320 }
+    ];
+}
+
+function checkMedalsAndPlushies() {
+    const medals = getAllMedals();
+    let bonus = 0;
+    let firstTitle = '';
+    medals.forEach(m => {
+        if (m.cur >= m.max && !state.claimedMedals.includes(m.id)) {
+            state.claimedMedals.push(m.id);
+            bonus += m.rw;
+            if (!firstTitle) firstTitle = `${m.ic} ${m.t}`;
+        }
+    });
+    if (bonus > 0) {
+        state.profile.berries += bonus;
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+        setTimeout(() => {
+            confettiBurst();
+            beep(880, 0.25);
+            toast(`🏅 مدال جدید: ${firstTitle} (+${fa(bonus)}🍓)`);
+        }, 450);
+    }
+}
+
+function addBerries(amount, msg = '') {
+    state.profile.berries = Math.max(0, (state.profile.berries || 0) + amount);
+    saveState();
+    if (amount > 0) {
+        beep(660, 0.11);
+        toast(`${msg ? msg + ' | ' : ''}+${fa(amount)} 🍓`);
+    }
+}
+
+/* =========================================================================
+   5. HOME ROOM, BOUTIQUE RENDERER & DAILY SURPRISE EGG
+   ========================================================================= */
+function applyAppTheme() {
+    const t = state.profile.theme || 'strawberry';
+    if (t === 'strawberry') document.documentElement.removeAttribute('data-theme');
+    else document.documentElement.setAttribute('data-theme', t);
+}
+
+function navTo(tab) {
+    document.querySelectorAll('.tab-page').forEach(p => p.classList.remove('active'));
+    document.getElementById('page-' + tab).classList.add('active');
+    document.querySelectorAll('.b-nav-btn').forEach(b => {
+        b.classList.toggle('active', b.getAttribute('data-tab') === tab);
+    });
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    if (tab === 'home') renderHeaderAndRoom();
+    if (tab === 'cal') renderCalendar();
+    if (tab === 'iq') renderIqPage();
+    if (tab === 'time') renderTimePage();
+    if (tab === 'sci') initSciReview();
+}
+
+function openShowcase(sub = 'boutique') {
+    document.querySelectorAll('.tab-page').forEach(p => p.classList.remove('active'));
+    document.getElementById('page-showcase').classList.add('active');
+    document.querySelectorAll('.b-nav-btn').forEach(b => b.classList.remove('active'));
+    const btn = document.querySelector(`#scTabs [data-sct="${sub}"]`);
+    if (btn) switchScTab(sub, btn);
+    else renderShowcaseAll();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function renderHeaderAndRoom() {
+    applyAppTheme();
+    const totQ = getTotalQuestions();
+    const streak = getCurrentStreak();
+    const today = todayISO();
+
+    // Ensure equipped pet is unlocked, else fallback to p1
+    let eqPet = PLUSHIES.find(p => p.id === state.profile.equippedPet) || PLUSHIES[0];
+    if (!isPlushieUnlocked(eqPet)) eqPet = PLUSHIES[0];
+
+    document.getElementById('hdrAvatar').textContent = eqPet.emoji;
+    document.getElementById('hdrName').textContent = `${state.profile.name} ✨`;
+    document.getElementById('hdrSubStats').textContent = `🎯 ${fa(totQ)} تست | 🔥 ${fa(streak)} روز`;
+    document.getElementById('hdrBerries').textContent = fa(state.profile.berries);
+
+    // Decorated Pet Room
+    const roomEl = document.getElementById('petRoomBox');
+    roomEl.className = 'pet-room ' + (state.boutique.wall || 'room-bg-default');
+
+    const hatObj = BOUTIQUE_HATS.find(h => h.id === state.boutique.hat);
+    document.getElementById('petHatSlot').textContent = (hatObj && hatObj.id !== 'hat_none') ? hatObj.emoji : '';
+
+    const garObj = BOUTIQUE_PROPS.find(p => p.id === state.boutique.garland);
+    const rPropObj = BOUTIQUE_PROPS.find(p => p.id === state.boutique.right);
+    const lPropObj = BOUTIQUE_PROPS.find(p => p.id === state.boutique.left);
+
+    document.getElementById('roomGarlandSlot').textContent = garObj ? garObj.emoji : '';
+    document.getElementById('roomPropRight').textContent = rPropObj ? rPropObj.emoji : '';
+    document.getElementById('roomPropLeft').textContent = lPropObj ? lPropObj.emoji : '';
+
+    // Check phone mood effect on pet
+    const phoneToday = state.activities.filter(a => a.date === today && a.cat === 'phone').reduce((s,a)=>s+a.minutes, 0);
+    const maxP = state.rules.maxPhoneMins;
+    document.getElementById('petBodyEmoji').textContent = phoneToday > maxP ? '😵‍💫' : eqPet.emoji;
+    document.getElementById('petNameLabel').textContent = eqPet.name;
+    document.getElementById('roomStreakBadge').textContent = `🔥 ${fa(streak)} روز پیوسته`;
+
+    // Next IQ Plushie Banner
+    const nextIqPet = PLUSHIES.find(p => p.type === 'iq' && totQ < p.req);
+    if (nextIqPet) {
+        document.getElementById('nextPetPreview').textContent = nextIqPet.emoji;
+        document.getElementById('nextPetTitle').textContent = `تا باز شدن ${nextIqPet.name}:`;
+        document.getElementById('nextPetNums').textContent = `${fa(totQ)} / ${fa(nextIqPet.req)} تست`;
+        document.getElementById('nextPetBar').style.width = `${Math.min(100, Math.round((totQ / nextIqPet.req)*100))}%`;
+    } else {
+        document.getElementById('nextPetPreview').textContent = '🦄';
+        document.getElementById('nextPetTitle').textContent = 'همه عروسک‌های تست هوش باز شدن!';
+        document.getElementById('nextPetNums').textContent = `${fa(totQ)} تست 👑`;
+        document.getElementById('nextPetBar').style.width = '100%';
+    }
+
+    renderDailySurpriseEgg();
+}
+
+function pokePet() {
+    const wrap = document.getElementById('petWrap');
+    wrap.classList.remove('boing');
+    void wrap.offsetWidth;
+    wrap.classList.add('boing');
+    beep(740, 0.09);
+
+    const room = document.getElementById('petRoomBox');
+    ['💕','🍓','✨','🌸'].forEach((em, idx) => {
+        if (idx > 2) return;
+        const sp = document.createElement('span');
+        sp.className = 'fly-heart';
+        sp.textContent = em;
+        sp.style.left = (43 + (Math.random() * 16 - 8)) + '%';
+        sp.style.top = '42%';
+        room.appendChild(sp);
+        setTimeout(() => sp.remove(), 950);
+    });
+
+    const today = todayISO();
+    const phoneToday = state.activities.filter(a => a.date === today && a.cat === 'phone').reduce((s,a)=>s+a.minutes, 0);
+    const maxP = state.rules.maxPhoneMins;
+
+    if (phoneToday > maxP) {
+        document.getElementById('petSpeech').textContent = `آخ! امروز ${fa(phoneToday)} دقیقه با گوشی بودیم و از سقف رد شدیم؛ بریم کتاب بخونیم حالم جا بیاد! 😵‍💫📚`;
+        return;
+    }
+
+    const eqPet = PLUSHIES.find(p => p.id === state.profile.equippedPet) || PLUSHIES[0];
+    const lines = [
+        eqPet.msg,
+        `آفرین ${state.profile.name}! هر تستی که می‌زنی ما رو به عروسک بعدی نزدیک‌تر می‌کنه 🎯`,
+        `سقف گوشی امروزمون حداکثر ${fa(maxP)} دقیقه‌ست؛ حواسمون هست تا تخم‌مرغ شانسی نپره! 🥚✨`,
+        'با توت‌فرنگی‌هات می‌تونی از بوتیک برام کلاه و وسایل اتاق بخری! 🛍️🎀'
+    ];
+    document.getElementById('petSpeech').textContent = lines[Math.floor(Math.random() * lines.length)];
+}
+
+function getEggStatusToday() {
+    const today = todayISO();
+    const r = state.rules;
+    const dLog = getDayLog(today);
+
+    const qToday = state.iqTests.filter(t => t.date === today).reduce((s,t)=>s+t.qCount, 0);
+    const sciToday = dLog.sciReviews || 0;
+    const todayActs = state.activities.filter(a => a.date === today);
+    const phoneToday = todayActs.filter(a => a.cat === 'phone').reduce((s,a)=>s+a.minutes, 0);
+    const hasLoggedTime = todayActs.length > 0;
+
+    const lock1 = qToday >= r.minDailyQuestions;
+    const lock2 = sciToday >= r.minDailyCards;
+    const phoneOver = phoneToday > r.maxPhoneMins;
+    const lock3 = hasLoggedTime && !phoneOver;
+
+    return {
+        cracked: !!dLog.eggCracked,
+        qToday, sciToday, phoneToday, hasLoggedTime, phoneOver,
+        lock1, lock2, lock3,
+        allReady: lock1 && lock2 && lock3
+    };
+}
+
+function renderDailySurpriseEgg() {
+    const today = todayISO();
+    document.getElementById('todayShamsiBadge').textContent = isoToShamsi(today);
+    const st = getEggStatusToday();
+    const r = state.rules;
+
+    const eggEl = document.getElementById('dailyEggVisual');
+    eggEl.className = 'egg-visual ' + (st.cracked ? 'cracked' : (st.allReady ? 'ready' : ''));
+    eggEl.textContent = st.cracked ? '🐣' : '🥚';
+
+    document.getElementById('dailyEggLocks').innerHTML = `
+        <div class="lock-row ${st.lock1 ? 'ok' : ''}">
+            <span>🧠 حداقل ${fa(r.minDailyQuestions)} تست هوش</span>
+            <span>${fa(st.qToday)}/${fa(r.minDailyQuestions)} ${st.lock1 ? '✅' : '🔒'}</span>
+        </div>
+        <div class="lock-row ${st.lock2 ? 'ok' : ''}">
+            <span>🔬 مرور ${fa(r.minDailyCards)} کارت لایتنر</span>
+            <span>${fa(st.sciToday)}/${fa(r.minDailyCards)} ${st.lock2 ? '✅' : '🔒'}</span>
+        </div>
+        <div class="lock-row ${st.phoneOver ? 'fail' : (st.lock3 ? 'ok' : '')}">
+            <span>🛡️ ثبت زمان و گوشی ≤ ${fa(r.maxPhoneMins)} د</span>
+            <span>${st.phoneOver ? `${fa(st.phoneToday)}د ❌` : (st.hasLoggedTime ? `${fa(st.phoneToday)}د ✅` : 'ثبت کن 🔒')}</span>
+        </div>
+    `;
+
+    const hint = document.getElementById('eggHintText');
+    if (st.cracked) {
+        hint.textContent = '🎉 تخم‌مرغ امروزت رو شکستی! فردا یه تخم‌مرغ شانسی جدید منتظرته!';
+    } else if (st.phoneOver) {
+        hint.textContent = '⚠️ امروز از سقف مجاز گوشی رد شدی و قفل ۳ بسته شد؛ فردا جبران می‌کنیم! 💪';
+    } else if (st.allReady) {
+        hint.textContent = '🌟 هورا! هر ۳ قفل باز شد! الان بزن روی تخم‌مرغ تا بشکنه! 👆🥚';
+    } else {
+        hint.textContent = 'هر ۳ قفل بالا رو سبز کن تا تخم‌مرغ بشکنه و استیکر شانسی + جایزه بگیری! ✨';
+    }
+}
+
+function tryCrackDailyEgg() {
+    const st = getEggStatusToday();
+    if (st.cracked) {
+        openShowcase('stickers');
+        return;
+    }
+    if (!st.allReady) {
+        beep(320, 0.12);
+        toast('🔒 اول هر ۳ قفل کنار تخم‌مرغ رو سبز کن قهرمان!');
+        return;
+    }
+
+    const dLog = getDayLog(todayISO());
+    dLog.eggCracked = true;
+
+    // Pick sticker (prefer unowned!)
+    const unowned = EGG_STICKERS.filter(s => !state.stickers.includes(s.id));
+    let chosen;
+    let isNew = false;
+    if (unowned.length > 0) {
+        // Weighted by rarity among unowned
+        const weights = { common: 50, glitter: 30, magic: 14, legend: 6 };
+        const pool = [];
+        unowned.forEach(s => {
+            const w = weights[s.r] || 10;
+            for (let i = 0; i < w; i++) pool.push(s);
+        });
+        chosen = pool[Math.floor(Math.random() * pool.length)];
+        state.stickers.push(chosen.id);
+        isNew = true;
+    } else {
+        chosen = EGG_STICKERS[Math.floor(Math.random() * EGG_STICKERS.length)];
+    }
+
+    const bonusBerries = state.rules.eggBonus + (isNew ? 0 : 25);
+    state.profile.berries += bonusBerries;
+    saveState();
+
+    // Show Reveal Modal
+    const rLabels = {
+        common: '🌸 استیکر گوگولی',
+        glitter: '✨ استیکر اکلیلی کمیاب!',
+        magic: '🔮 استیکر جادویی فوق‌کمیاب!',
+        legend: '👑 استیکر افسانه‌ای کهکشان!!'
+    };
+    document.getElementById('revStickerEmoji').textContent = chosen.e;
+    document.getElementById('revStickerName').textContent = chosen.n;
+    document.getElementById('revStickerRarity').textContent = rLabels[chosen.r];
+    document.getElementById('revBonusText').textContent = `+${fa(bonusBerries)} توت‌فرنگی جایزه رعایت قوانین امروز! 🍓`;
+
+    confettiBurst();
+    beep(920, 0.35);
+    document.getElementById('eggRevealModal').classList.add('open');
+}
+
+/* =========================================================================
+   6. FOCUS TIMER
+   ========================================================================= */
+function setFocusPreset(m, el) {
+    if (focusTimer) return;
+    focusMins = m; focusSecs = m * 60;
+    el.parentElement.querySelectorAll('.chip').forEach(c => c.classList.remove('selected'));
+    el.classList.add('selected');
+    updateFocusTxt();
+}
+function updateFocusTxt() {
+    const m = String(Math.floor(focusSecs / 60)).padStart(2, '0');
+    const s = String(focusSecs % 60).padStart(2, '0');
+    document.getElementById('focusTimeTxt').textContent = `${fa(m)}:${fa(s)}`;
+}
+function toggleFocus() {
+    const btn = document.getElementById('focusStartBtn');
+    if (focusTimer) {
+        clearInterval(focusTimer); focusTimer = null;
+        btn.textContent = 'ادامه تمرکز 🚀';
+    } else {
+        btn.textContent = 'توقف موقت ⏸️';
+        focusTimer = setInterval(() => {
+            focusSecs--;
+            updateFocusTxt();
+            if (focusSecs <= 0) {
+                clearInterval(focusTimer); focusTimer = null;
+                btn.textContent = 'شروع تمرکز 🚀';
+                const earned = Math.max(10, Math.round(focusMins * 0.8));
+                state.activities.unshift({
+                    id: Date.now(), date: todayISO(), cat: 'study',
+                    minutes: focusMins, note: 'ثبت خودکار ساعت شنی تمرکز ⏳', earnedPts: earned
+                });
+                state.profile.totalFocusDone = (state.profile.totalFocusDone || 0) + 1;
+                focusSecs = focusMins * 60;
+                updateFocusTxt();
+                confettiBurst();
+                addBerries(earned, `${fa(focusMins)} دقیقه تمرکز بدون گوشی!`);
+            }
+        }, 1000);
+    }
+}
+function resetFocus() {
+    clearInterval(focusTimer); focusTimer = null;
+    focusSecs = focusMins * 60;
+    document.getElementById('focusStartBtn').textContent = 'شروع تمرکز 🚀';
+    updateFocusTxt();
+}
+
+/* =========================================================================
+   7. SHAMSI CALENDAR & DAY INSPECTOR
+   ========================================================================= */
+function initCal() {
+    const [gy, gm, gd] = todayISO().split('-').map(Number);
+    const [jy, jm] = g2j(gy, gm, gd);
+    calJY = jy; calJM = jm; selISO = todayISO();
+}
+function shiftCalMonth(d) {
+    calJM += d;
+    if (calJM > 12) { calJM = 1; calJY++; }
+    if (calJM < 1)  { calJM = 12; calJY--; }
+    renderCalendar();
+}
+function goTodayCal() { initCal(); renderCalendar(); }
+
+function renderCalendar() {
+    document.getElementById('calHeaderTitle').textContent = `${J_MONTHS[calJM - 1]} ${fa(calJY)}`;
+    const len = jMonthLen(calJY, calJM);
+    const [fGy, fGm, fGd] = j2g(calJY, calJM, 1);
+    const offset = (new Date(fGy, fGm - 1, fGd).getDay() + 1) % 7;
+    const tIso = todayISO();
+
+    let html = '';
+    for (let i = 0; i < offset; i++) html += `<div class="cal-cell empty"></div>`;
+
+    for (let jd = 1; jd <= len; jd++) {
+        const [gy, gm, gd] = j2g(calJY, calJM, jd);
+        const iso = makeISO(gy, gm, gd);
+        const qSum = state.iqTests.filter(t => t.date === iso).reduce((s,t)=>s+t.qCount, 0);
+        const acts = state.activities.filter(a => a.date === iso);
+        const goodM = acts.filter(a => a.cat !== 'phone').reduce((s,a)=>s+a.minutes, 0);
+        const phoneM = acts.filter(a => a.cat === 'phone').reduce((s,a)=>s+a.minutes, 0);
+        const eggOk = state.dailyLogs[iso]?.eggCracked;
+
+        let dots = '';
+        if (qSum > 0) dots += `<span class="c-dot iq"></span>`;
+        if (goodM > 0) dots += `<span class="c-dot good"></span>`;
+        if (eggOk) dots += `<span class="c-dot egg"></span>`;
+        if (phoneM > state.rules.maxPhoneMins) dots += `<span class="c-dot over"></span>`;
+
+        const cls = ['cal-cell', iso === tIso ? 'is-today' : '', iso === selISO ? 'is-selected' : ''].join(' ');
+        html += `<div class="${cls}" onclick="pickCalDate('${iso}')"><span class="d-num">${fa(jd)}</span><div class="cal-dots">${dots}</div></div>`;
+    }
+    document.getElementById('calDaysGrid').innerHTML = html;
+    renderCalDayDetails(selISO);
+}
+
+function pickCalDate(iso) { selISO = iso; renderCalendar(); }
+
+function renderCalDayDetails(iso) {
+    document.getElementById('calDayTitle').textContent = `📖 پرونده ${isoToShamsi(iso)}`;
+    const iqs = state.iqTests.filter(t => t.date === iso);
+    const acts = state.activities.filter(a => a.date === iso);
+    const qSum = iqs.reduce((s,t)=>s+t.qCount, 0);
+    const goodM = acts.filter(a => a.cat !== 'phone').reduce((s,a)=>s+a.minutes, 0);
+    const phoneM = acts.filter(a => a.cat === 'phone').reduce((s,a)=>s+a.minutes, 0);
+    const dLog = state.dailyLogs[iso];
+
+    document.getElementById('calDayQ').textContent = `${fa(qSum)} تست`;
+    document.getElementById('calDayGood').textContent = `${fa(goodM)} د`;
+    document.getElementById('calDayPhone').textContent = `${fa(phoneM)} د`;
+
+    let list = '';
+    if (dLog?.eggCracked) {
+        list += `<div class="hist-item" style="background:#fef3c7;"><b>🥚 تخم‌مرغ شانسی این روز شکسته شده!</b><span>✅</span></div>`;
+    }
+    iqs.forEach(t => {
+        list += `<div class="hist-item" style="background:#f5f3ff;">
+            <div><b>${IQ_CAT_NAMES[t.cat] || '🧠 تست'}</b> (${fa(t.qCount)} سوال) ${t.title ? '— '+t.title : ''}</div>
+            <span style="background:var(--secondary); color:#fff; padding:2px 8px; border-radius:9px; font-weight:800;">${fa(t.percent)}٪</span>
+        </div>`;
+    });
+    acts.forEach(a => {
+        list += `<div class="hist-item">
+            <div><b>${ACT_META[a.cat]?.label || a.cat}</b> ${a.note ? '— '+a.note : ''}</div>
+            <span style="font-weight:800; color:var(--primary-dark);">${fa(a.minutes)} دقیقه</span>
+        </div>`;
+    });
+    if (dLog?.sciReviews > 0) {
+        list += `<div class="hist-item" style="background:#ecfdf5;"><b>🔬 مرور لایتنر علمی</b><span>${fa(dLog.sciReviews)} کارت</span></div>`;
+    }
+    if (!list) list = `<p style="text-align:center; font-size:0.75rem; color:var(--text-muted); padding:8px;">برای این تاریخ هنوز موردی ثبت نشده 🌸</p>`;
+    document.getElementById('calDayItems').innerHTML = list;
+}
+
+function jumpLogFromCal(target) {
+    if (target === 'iq') {
+        document.getElementById('iqDateInp').value = selISO;
+        navTo('iq');
+    } else {
+        document.getElementById('actDateInp').value = selISO;
+        navTo('time');
+    }
+}
+
+/* =========================================================================
+   8. IQ CLUB (QUESTION COUNTS + RADAR & LINE CHARTS)
+   ========================================================================= */
+const IQ_CAT_NAMES = {
+    visual: '👁️ تصویری',
+    verbal: '💬 کلامی',
+    math:   '🔢 ریاضی/منطقی',
+    speed:  '⚡ سرعت‌ودقت',
+    general:'🧩 جامع'
+};
+
+function selectIqCat(c, el) {
+    selIqCat = c;
+    document.querySelectorAll('#iqCatChips .chip').forEach(x => x.classList.remove('selected'));
+    el.classList.add('selected');
+}
+function setIqQCount(n) {
+    document.getElementById('iqQCountInp').value = n;
+    calcIqAuto();
+}
+function calcIqAuto() {
+    const tot = parseFloat(document.getElementById('iqQCountInp').value);
+    const cor = parseFloat(document.getElementById('iqCorInp').value);
+    const wrg = parseFloat(document.getElementById('iqWrgInp').value) || 0;
+    const neg = document.getElementById('iqNegChk').checked;
+    if (tot > 0 && !isNaN(cor)) {
+        let p = neg ? ((cor * 3 - wrg) / (tot * 3)) * 100 : (cor / tot) * 100;
+        p = Math.max(0, Math.min(100, Math.round(p)));
+        document.getElementById('iqPctInp').value = p;
+    }
+}
+
+function addIqEntry() {
+    const qCount = parseInt(document.getElementById('iqQCountInp').value);
+    const pct = parseFloat(document.getElementById('iqPctInp').value);
+    const dateVal = document.getElementById('iqDateInp').value || todayISO();
+    const title = document.getElementById('iqTitleInp').value.trim();
+
+    if (!qCount || qCount < 1 || qCount > 300) {
+        toast('⚠️ تعداد سوالات را بین ۱ تا ۳۰۰ وارد کن!');
+        return;
+    }
+    if (isNaN(pct) || pct < 0 || pct > 100) {
+        toast('⚠️ درصد آزمون را بین ۰ تا ۱۰۰ وارد کن!');
+        return;
+    }
+
+    const r = state.rules;
+    let earned = qCount * r.ptsPerQuestion;
+    let bonusNotes = [];
+
+    if (pct >= 80 && qCount >= 10) {
+        earned += r.highAccBonus;
+        bonusNotes.push('پاداش دقت بالای ۸۰٪');
+    }
+
+    const prevPetsUnlocked = PLUSHIES.filter(p => isPlushieUnlocked(p)).length;
+
+    state.iqTests.push({
+        id: Date.now(),
+        date: dateVal,
+        cat: selIqCat,
+        title,
+        qCount,
+        percent: Math.round(pct),
+        earnedPts: earned
+    });
+
+    // Check Daily IQ Question Target Bonus
+    const dLog = getDayLog(dateVal);
+    const dayQTotal = state.iqTests.filter(t => t.date === dateVal).reduce((s,t)=>s+t.qCount, 0);
+    if (dayQTotal >= r.minDailyQuestions && !dLog.iqGoalPaid) {
+        dLog.iqGoalPaid = true;
+        earned += r.dailyIqBonus;
+        state.iqTests[state.iqTests.length - 1].earnedPts = earned;
+        bonusNotes.push('هدف تست روزانه تکمیل شد!');
+    }
+
+    document.getElementById('iqPctInp').value = '';
+    document.getElementById('iqCorInp').value = '';
+    document.getElementById('iqWrgInp').value = '';
+    document.getElementById('iqTitleInp').value = '';
+
+    addBerries(earned, bonusNotes[0] || `${fa(qCount)} تست ثبت شد!`);
+
+    // Check if new Plushie unlocked!
+    const nowPetsUnlocked = PLUSHIES.filter(p => isPlushieUnlocked(p)).length;
+    if (nowPetsUnlocked > prevPetsUnlocked) {
+        const newest = PLUSHIES.filter(p => isPlushieUnlocked(p)).pop();
+        state.profile.equippedPet = newest.id;
+        saveState();
+        setTimeout(() => {
+            confettiBurst();
+            beep(950, 0.35);
+            toast(`🧸 عروسک جدید باز شد: ${newest.emoji} ${newest.name}!`);
+        }, 650);
+    }
+
+    renderIqPage();
+}
+
+function deleteIqEntry(id) {
+    const item = state.iqTests.find(t => t.id === id);
+    if (!item) return;
+    state.iqTests = state.iqTests.filter(t => t.id !== id);
+    if (item.earnedPts) {
+        state.profile.berries = Math.max(0, state.profile.berries - item.earnedPts);
+    }
+    saveState();
+    renderIqPage();
+}
+
+function renderIqPage() {
+    const dInp = document.getElementById('iqDateInp');
+    if (!dInp.value) dInp.value = todayISO();
+    document.getElementById('iqTargetHint').textContent = `هدف روز: ${fa(state.rules.minDailyQuestions)} تست`;
+
+    const totQ = getTotalQuestions();
+    const weightedSum = state.iqTests.reduce((s, t) => s + t.percent * (t.qCount || 1), 0);
+    const wAvg = totQ > 0 ? Math.round(weightedSum / totQ) : 0;
+
+    document.getElementById('iqTotalQuestions').textContent = `${fa(totQ)} تست`;
+    document.getElementById('iqWeightedAvg').textContent = `${fa(wAvg)}٪`;
+
+    if (window.Chart) {
+        Chart.defaults.font.family = 'Vazirmatn';
+        // Radar Chart by Category
+        const cats = ['visual','verbal','math','speed','general'];
+        const radarData = cats.map(c => {
+            const sub = state.iqTests.filter(t => t.cat === c);
+            const qS = sub.reduce((s,t)=>s+t.qCount, 0);
+            return qS > 0 ? Math.round(sub.reduce((s,t)=>s+t.percent*t.qCount, 0) / qS) : 0;
+        });
+
+        const rCtx = document.getElementById('iqRadarCanvas').getContext('2d');
+        if (iqRadarChart) iqRadarChart.destroy();
+        iqRadarChart = new Chart(rCtx, {
+            type: 'radar',
+            data: {
+                labels: ['تصویری','کلامی','ریاضی','سرعت‌ودقت','جامع'],
+                datasets: [{
+                    label: 'میانگین درصد',
+                    data: radarData,
+                    backgroundColor: 'rgba(255, 107, 157, 0.22)',
+                    borderColor: '#ff6b9d',
+                    pointBackgroundColor: '#9333ea'
+                }]
+            },
+            options: {
+                responsive: true, maintainAspectRatio: false,
+                plugins: { legend: { display: false } },
+                scales: { r: { min: 0, max: 100, ticks: { stepSize: 25, display: false } } }
+            }
+        });
+
+        // Line Chart
+        const sorted = [...state.iqTests].sort((a,b) => a.date.localeCompare(b.date) || a.id - b.id).slice(-15);
+        const lCtx = document.getElementById('iqLineCanvas').getContext('2d');
+        if (iqLineChart) iqLineChart.destroy();
+        iqLineChart = new Chart(lCtx, {
+            type: 'line',
+            data: {
+                labels: sorted.length ? sorted.map(t => `${fa(t.qCount)}تست`) : ['شروع'],
+                datasets: [{
+                    data: sorted.length ? sorted.map(t => t.percent) : [0],
+                    borderColor: '#9333ea',
+                    backgroundColor: 'rgba(147, 51, 234, 0.14)',
+                    fill: true, tension: 0.35, pointRadius: 5
+                }]
+            },
+            options: {
+                responsive: true, maintainAspectRatio: false,
+                plugins: { legend: { display: false } },
+                scales: { y: { min: 0, max: 100 } }
+            }
+        });
+    }
+
+    const hist = document.getElementById('iqHistList');
+    if (!state.iqTests.length) {
+        hist.innerHTML = `<p style="text-align:center; font-size:0.76rem; color:var(--text-muted); padding:10px;">اولین تستت رو ثبت کن تا پله‌های ۵۰ و ۱۰۰ تست شروع بشه! 🚀</p>`;
+    } else {
+        hist.innerHTML = [...state.iqTests].reverse().slice(0, 35).map(t => `
+            <div class="hist-item">
+                <div>
+                    <b>${IQ_CAT_NAMES[t.cat] || '🧠'} — ${fa(t.qCount)} تست</b>
+                    <div style="font-size:0.68rem; color:var(--text-muted);">${isoToShamsi(t.date)} ${t.title ? '| '+t.title : ''}</div>
+                </div>
+                <div style="display:flex; align-items:center; gap:6px;">
+                    <span style="background:var(--primary); color:#fff; padding:3px 8px; border-radius:9px; font-weight:800;">${fa(t.percent)}٪</span>
+                    <button class="del-x" onclick="deleteIqEntry(${t.id})">حذف</button>
+                </div>
+            </div>
+        `).join('');
+    }
+}
+
+/* =========================================================================
+   9. TIME & PHONE SHIELD PAGE
+   ========================================================================= */
+const ACT_META = {
+    study: { label: '📚 درس و مطالعه', color: '#8b5cf6' },
+    phone: { label: '📱 گوشی و بازی',  color: '#f43f5e' },
+    book:  { label: '📖 کتاب غیردرسی', color: '#0ea5e9' },
+    art:   { label: '🎨 هنر و کاردستی', color: '#f59e0b' },
+    sport: { label: '🏃‍♀️ ورزش و تحرک',  color: '#10b981' }
+};
+
+function selectActCat(c, el) {
+    selActCat = c;
+    document.querySelectorAll('#actCatChips .chip').forEach(x => x.classList.remove('selected'));
+    el.classList.add('selected');
+}
+
+function addTimeEntry() {
+    const mins = parseInt(document.getElementById('actMinInp').value);
+    const dateVal = document.getElementById('actDateInp').value || todayISO();
+    const note = document.getElementById('actNoteInp').value.trim();
+    if (!mins || mins <= 0) { toast('⚠️ مدت زمان را وارد کن!'); return; }
+
+    // Anti-farming cap on general activity berries: 1 berry per 3 mins, max 25 per entry
+    const earned = selActCat === 'phone' ? 0 : Math.min(25, Math.max(5, Math.round(mins / 2)));
+
+    state.activities.unshift({
+        id: Date.now(), date: dateVal, cat: selActCat, minutes: mins, note, earnedPts: earned
+    });
+    document.getElementById('actNoteInp').value = '';
+
+    if (selActCat === 'phone') {
+        saveState();
+        toast('📱 زمان گوشی ثبت شد! راستگوییت عالیه 💕');
+    } else {
+        addBerries(earned, 'فعالیت مفید ثبت شد!');
+    }
+    renderTimePage();
+}
+
+function deleteTimeEntry(id) {
+    const item = state.activities.find(a => a.id === id);
+    if (!item) return;
+    state.activities = state.activities.filter(a => a.id !== id);
+    if (item.earnedPts) state.profile.berries = Math.max(0, state.profile.berries - item.earnedPts);
+    saveState();
+    renderTimePage();
+}
+
+function renderTimePage() {
+    const dInp = document.getElementById('actDateInp');
+    if (!dInp.value) dInp.value = todayISO();
+
+    const today = todayISO();
+    const maxP = state.rules.maxPhoneMins;
+    const phoneToday = state.activities.filter(a => a.date === today && a.cat === 'phone').reduce((s,a)=>s+a.minutes, 0);
+    const pct = maxP > 0 ? Math.min(100, Math.round((phoneToday / maxP) * 100)) : 100;
+
+    document.getElementById('timeShieldNums').textContent = `${fa(phoneToday)} از ${fa(maxP)} دقیقه`;
+    const bar = document.getElementById('timeShieldBar');
+    bar.style.width = `${pct}%`;
+    if (phoneToday <= maxP * 0.75) {
+        bar.style.background = 'var(--success)';
+        document.getElementById('timeShieldStatus').textContent = 'سبز و عالی! عروسکت پرانرژی و خوشحاله 🥰';
+    } else if (phoneToday <= maxP) {
+        bar.style.background = 'var(--accent)';
+        document.getElementById('timeShieldStatus').textContent = 'نزدیک سقف مجازیم! حواست باشه از سقف رد نشی تا قفل تخم‌مرغ نسوزه 😮';
+    } else {
+        bar.style.background = 'var(--danger)';
+        document.getElementById('timeShieldStatus').textContent = 'از سقف مجاز امروز رد شدیم! گوشی رو بذاریم کنار و بریم سراغ یه کار جذاب دیگه 💪';
+    }
+
+    if (window.Chart) {
+        Chart.defaults.font.family = 'Vazirmatn';
+        const totals = { study:0, book:0, art:0, sport:0, phone:0 };
+        state.activities.filter(a => a.date === today).forEach(a => { if (totals[a.cat]!==undefined) totals[a.cat]+=a.minutes; });
+        const hasAny = Object.values(totals).some(v => v > 0);
+
+        const pCtx = document.getElementById('timePieCanvas').getContext('2d');
+        if (timePieChart) timePieChart.destroy();
+        timePieChart = new Chart(pCtx, {
+            type: 'doughnut',
+            data: {
+                labels: hasAny ? Object.keys(totals).map(k => ACT_META[k].label) : ['خالی'],
+                datasets: [{
+                    data: hasAny ? Object.values(totals) : [1],
+                    backgroundColor: hasAny ? Object.keys(totals).map(k => ACT_META[k].color) : ['#f3f4f6']
+                }]
+            },
+            options: { responsive:true, maintainAspectRatio:false, plugins:{ legend:{ position:'bottom', labels:{ boxWidth:11, font:{size:10} } } } }
+        });
+
+        const lbls = [], gArr = [], pArr = [];
+        for (let i = 6; i >= 0; i--) {
+            const d = new Date(); d.setDate(d.getDate() - i);
+            const iso = makeISO(d.getFullYear(), d.getMonth()+1, d.getDate());
+            const [, jm, jd] = g2j(d.getFullYear(), d.getMonth()+1, d.getDate());
+            lbls.push(`${fa(jd)} ${J_MONTHS[jm-1].slice(0,3)}`);
+            const dA = state.activities.filter(a => a.date === iso);
+            gArr.push(dA.filter(a => a.cat !== 'phone').reduce((s,a)=>s+a.minutes, 0));
+            pArr.push(dA.filter(a => a.cat === 'phone').reduce((s,a)=>s+a.minutes, 0));
+        }
+        const bCtx = document.getElementById('timeBarCanvas').getContext('2d');
+        if (timeBarChart) timeBarChart.destroy();
+        timeBarChart = new Chart(bCtx, {
+            type: 'bar',
+            data: {
+                labels: lbls,
+                datasets: [
+                    { label: 'مفید 🌟', data: gArr, backgroundColor: '#10b981', borderRadius: 5 },
+                    { label: 'گوشی 📱', data: pArr, backgroundColor: '#f43f5e', borderRadius: 5 }
+                ]
+            },
+            options: { responsive:true, maintainAspectRatio:false, scales:{ y:{ beginAtZero:true } } }
+        });
+    }
+
+    const hist = document.getElementById('timeHistList');
+    hist.innerHTML = state.activities.slice(0, 25).map(a => `
+        <div class="hist-item">
+            <div>
+                <b>${ACT_META[a.cat]?.label}</b> — <span style="font-weight:800; color:var(--primary-dark);">${fa(a.minutes)} د</span>
+                <div style="font-size:0.68rem; color:var(--text-muted);">${isoToShamsi(a.date)} ${a.note ? '| '+a.note : ''}</div>
+            </div>
+            <button class="del-x" onclick="deleteTimeEntry(${a.id})">حذف</button>
+        </div>
+    `).join('') || `<p style="text-align:center; font-size:0.75rem; color:var(--text-muted);">هنوز زمانی ثبت نشده 🌸</p>`;
+}
+
+/* =========================================================================
+   10. SCIENCE LEITNER (WITH DAILY ANTI-FARMING CAP)
+   ========================================================================= */
+const BOX_DAYS = { 1:1, 2:2, 3:4, 4:8, 5:30 };
+const BOX_ICONS = ['🌱','🌸','🍓','🦄','💎'];
+
+function switchSciView(v, btn) {
+    ['review','add','bank'].forEach(k => document.getElementById('sci-v-'+k).style.display = k===v ? 'block' : 'none');
+    btn.parentElement.querySelectorAll('.pill-tab').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    if (v === 'review') initSciReview();
+    if (v === 'bank') renderFactBank();
+}
+
+function renderLeitnerStrip() {
+    const now = Date.now();
+    document.getElementById('sciCntBadge').textContent = fa(state.cards.length);
+    document.getElementById('leitnerBoxes').innerHTML = [1,2,3,4,5].map(b => {
+        const list = state.cards.filter(c => c.box === b);
+        const due = list.filter(c => c.nextReview <= now && b < 5).length;
+        return `<div class="l-box ${due>0?'due':''}">
+            <div style="font-size:1.1rem;">${BOX_ICONS[b-1]}</div>
+            <div style="font-size:0.6rem; color:var(--text-muted); font-weight:800;">خانه ${fa(b)}</div>
+            <div style="font-size:0.88rem; font-weight:900; color:var(--primary-dark);">${fa(list.length)}</div>
+        </div>`;
+    }).join('');
+}
+
+function initSciReview() {
+    isFreeMode = false;
+    const now = Date.now();
+    sciQueue = state.cards.filter(c => c.box < 5 && c.nextReview <= now);
+    nextSciCard();
+}
+function startFreeSci() {
+    isFreeMode = true;
+    sciQueue = [...state.cards].sort(() => Math.random() - 0.5).slice(0, 12);
+    nextSciCard();
+}
+function nextSciCard() {
+    renderLeitnerStrip();
+    const fc = document.getElementById('theFc');
+    fc.classList.remove('flipped');
+    document.getElementById('fcBtns').style.display = 'none';
+
+    if (!sciQueue.length) {
+        document.getElementById('fcWrap').style.display = 'none';
+        document.getElementById('fcEmpty').style.display = 'block';
+        document.getElementById('sciStatusLbl').textContent = 'مرور نوبت امروز تمام شد ✨';
+        return;
+    }
+    document.getElementById('fcWrap').style.display = 'block';
+    document.getElementById('fcEmpty').style.display = 'none';
+    curCard = sciQueue[0];
+    document.getElementById('sciStatusLbl').textContent = isFreeMode
+        ? `🎲 مرور آزاد (${fa(sciQueue.length)} کارت)`
+        : `🔔 کارت‌های امروز: ${fa(sciQueue.length)}`;
+
+    setTimeout(() => {
+        document.getElementById('fcCat').textContent = curCard.cat;
+        document.getElementById('fcFront').textContent = curCard.front;
+        document.getElementById('fcBox').textContent = `خانه ${fa(curCard.box)}`;
+        document.getElementById('fcBack').textContent = curCard.back;
+    }, 130);
+}
+function flipCard() {
+    const fc = document.getElementById('theFc');
+    fc.classList.toggle('flipped');
+    beep(520, 0.07);
+    if (fc.classList.contains('flipped')) document.getElementById('fcBtns').style.display = 'flex';
+}
+function gradeCard(knew) {
+    if (!curCard) return;
+    const target = state.cards.find(c => c.id === curCard.id);
+    if (target && !isFreeMode) {
+        target.box = knew ? Math.min(5, target.box + 1) : 1;
+        target.nextReview = Date.now() + BOX_DAYS[target.box] * 86400000;
+    }
+
+    const dLog = getDayLog(todayISO());
+    dLog.sciReviews = (dLog.sciReviews || 0) + 1;
+    state.profile.totalSciReviews = (state.profile.totalSciReviews || 0) + 1;
+
+    sciQueue.shift();
+
+    // Respect Coach Daily Paid Cards Cap!
+    if ((dLog.paidCards || 0) < state.rules.maxPaidCardsPerDay) {
+        dLog.paidCards = (dLog.paidCards || 0) + 1;
+        const pts = knew ? state.rules.ptsPerCard : Math.max(1, Math.floor(state.rules.ptsPerCard / 2));
+        addBerries(pts, knew ? 'آفرین به حافظه‌ات!' : 'مرور عالی!');
+    } else {
+        saveState();
+        toast('💡 ثبت شد! (سقف توت‌فرنگی لایتنر امروز پر شده)');
+    }
+    nextSciCard();
+}
+
+function addSingleFact() {
+    const cat = document.getElementById('sciAddCat').value;
+    const f = document.getElementById('sciAddF').value.trim();
+    const b = document.getElementById('sciAddB').value.trim();
+    if (!f || !b) { toast('⚠️ سوال و جواب را کامل بنویس!'); return; }
+    state.cards.unshift({ id:'c_'+Date.now(), cat, front:f, back:b, box:1, nextReview:Date.now() });
+    document.getElementById('sciAddF').value = '';
+    document.getElementById('sciAddB').value = '';
+    saveState();
+    renderLeitnerStrip();
+    toast('📥 فکت جدید به جعبه لایتنر اضافه شد!');
+}
+
+function addBulkFacts() {
+    const raw = document.getElementById('sciBulkTxt').value.trim();
+    if (!raw) return;
+    const lines = raw.split('\n').map(l => l.trim()).filter(l => l.length > 3);
+    let added = 0;
+    lines.forEach((ln, i) => {
+        let f = '', b = '';
+        if (ln.includes('|')) {
+            const p = ln.split('|'); f = p[0].trim(); b = p.slice(1).join('|').trim();
+        } else {
+            f = `نکته علمی درباره «${ln.split(' ').slice(0,4).join(' ')}...» چیست؟ 🤔`; b = ln;
+        }
+        if (f && b) {
+            state.cards.unshift({ id:'bk_'+Date.now()+'_'+i, cat:'💡 اطلاعات عمومی', front:f, back:b, box:1, nextReview:Date.now() });
+            added++;
+        }
+    });
+    document.getElementById('sciBulkTxt').value = '';
+    saveState();
+    renderLeitnerStrip();
+    confettiBurst();
+    toast(`🌟 ${fa(added)} فکت جدید با موفقیت اضافه شد!`);
+}
+
+function delFact(id) {
+    state.cards = state.cards.filter(c => c.id !== id);
+    saveState();
+    renderFactBank();
+    renderLeitnerStrip();
+}
+function renderFactBank() {
+    const q = document.getElementById('sciSearch').value.trim().toLowerCase();
+    const list = state.cards.filter(c => c.front.toLowerCase().includes(q) || c.back.toLowerCase().includes(q));
+    document.getElementById('sciCntBadge').textContent = fa(state.cards.length);
+    document.getElementById('sciBankBox').innerHTML = list.map(c => `
+        <div class="hist-item" style="align-items:flex-start;">
+            <div style="flex:1;">
+                <span style="font-size:0.65rem; background:var(--primary-light); color:var(--primary-dark); padding:2px 6px; border-radius:7px; font-weight:800;">${c.cat} | خانه ${fa(c.box)}</span>
+                <div style="font-weight:800; margin-top:4px;">❓ ${c.front}</div>
+                <div style="font-size:0.74rem; color:var(--text-muted);">${c.back}</div>
+            </div>
+            <button class="del-x" onclick="delFact('${c.id}')">حذف</button>
+        </div>
+    `).join('');
+}
+
+/* =========================================================================
+   11. BOUTIQUE, PLUSHIES, STICKERS & MEDALS RENDERING
+   ========================================================================= */
+function switchScTab(sub, btn) {
+    ['boutique','plushies','stickers','medals'].forEach(k => {
+        document.getElementById('sc-sec-' + k).style.display = k === sub ? 'block' : 'none';
+    });
+    document.querySelectorAll('#scTabs .pill-tab').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    renderShowcaseAll();
+}
+
+function buyOrEquipBoutique(kind, id, cost, slot = '') {
+    const owned = state.boutique.owned.includes(id);
+    if (!owned) {
+        if (state.profile.berries < cost) {
+            beep(300, 0.12);
+            toast(`🍓 توت‌فرنگی کافی نیست! ${fa(cost - state.profile.berries)} تای دیگه لازمه!`);
+            return;
+        }
+        state.profile.berries -= cost;
+        state.boutique.owned.push(id);
+        confettiBurst();
+        beep(860, 0.2);
+    }
+
+    if (kind === 'hat') state.boutique.hat = id;
+    if (kind === 'wall') state.boutique.wall = id;
+    if (kind === 'prop') {
+        // Toggle off if already equipped in that slot
+        state.boutique[slot] = (state.boutique[slot] === id) ? '' : id;
+    }
+
+    saveState();
+    renderShowcaseAll();
+    toast('🎀 چیدمان اتاقت به‌روز شد!');
+}
+
+function selectPlushie(id) {
+    const p = PLUSHIES.find(x => x.id === id);
+    if (!p || !isPlushieUnlocked(p)) {
+        const reqTxt = p.type === 'iq' ? `${fa(p.req)} تست هوش` : `${fa(p.req)} روز شکستن تخم‌مرغ شانسی`;
+        toast(`🔒 برای باز شدن ${p.name} باید به رکورد «${reqTxt}» برسی!`);
+        return;
+    }
+    state.profile.equippedPet = id;
+    saveState();
+    renderShowcaseAll();
+    beep(780, 0.14);
+    toast(`${p.emoji} ${p.name} اومد توی اتاقت!`);
+}
+
+function renderShowcaseAll() {
+    document.getElementById('scWalletTxt').textContent = `${fa(state.profile.berries)} 🍓`;
+
+    // Overall Completion %
+    const totalCollectibles = PLUSHIES.length + EGG_STICKERS.length + 32 + (BOUTIQUE_HATS.length + BOUTIQUE_WALLS.length + BOUTIQUE_PROPS.length - 2);
+    const curCollectibles = PLUSHIES.filter(isPlushieUnlocked).length + state.stickers.length + state.claimedMedals.length + (state.boutique.owned.length - 2);
+    document.getElementById('scOverallProg').textContent = `${fa(Math.min(100, Math.round((curCollectibles / totalCollectibles)*100)))}٪`;
+
+    // 1. Boutique Hats
+    document.getElementById('shopHatsGrid').innerHTML = BOUTIQUE_HATS.map(h => {
+        const own = state.boutique.owned.includes(h.id);
+        const eq = state.boutique.hat === h.id;
+        return `<div class="shop-card ${eq?'equipped':''}" onclick="buyOrEquipBoutique('hat','${h.id}',${h.cost})">
+            <div class="sc-emoji">${h.emoji}</div>
+            <div class="sc-name">${h.name}</div>
+            <div class="sc-sub">${own ? (eq ? '💖 روی سر عروسک' : '✔️ خریداری‌شده') : `قیمت: ${fa(h.cost)} 🍓`}</div>
+        </div>`;
+    }).join('');
+
+    // 2. Boutique Walls
+    document.getElementById('shopWallsGrid').innerHTML = BOUTIQUE_WALLS.map(w => {
+        const own = state.boutique.owned.includes(w.id);
+        const eq = state.boutique.wall === w.id;
+        return `<div class="shop-card ${eq?'equipped':''}" onclick="buyOrEquipBoutique('wall','${w.id}',${w.cost})">
+            <div class="sc-emoji">${w.emoji}</div>
+            <div class="sc-name">${w.name}</div>
+            <div class="sc-sub">${own ? (eq ? '💖 نصب‌شده' : '✔️ خریداری‌شده') : `قیمت: ${fa(w.cost)} 🍓`}</div>
+        </div>`;
+    }).join('');
+
+    // 3. Boutique Props
+    document.getElementById('shopPropsGrid').innerHTML = BOUTIQUE_PROPS.map(pr => {
+        const own = state.boutique.owned.includes(pr.id);
+        const eq = state.boutique[pr.slot] === pr.id;
+        return `<div class="shop-card ${eq?'equipped':''}" onclick="buyOrEquipBoutique('prop','${pr.id}',${pr.cost},'${pr.slot}')">
+            <div class="sc-emoji" style="font-size:${pr.slot==='garland'?'1.2rem':'2.2rem'};">${pr.emoji}</div>
+            <div class="sc-name">${pr.name}</div>
+            <div class="sc-sub">${own ? (eq ? '💖 چیده‌شده در اتاق' : '✔️ بزنی چیده میشه') : `قیمت: ${fa(pr.cost)} 🍓`}</div>
+        </div>`;
+    }).join('');
+
+    // 4. Plushies Milestone Grid
+    const totQ = getTotalQuestions();
+    const eggDays = getCrackedEggDaysCount();
+    document.getElementById('plushiesMilestoneGrid').innerHTML = PLUSHIES.map(p => {
+        const unl = isPlushieUnlocked(p);
+        const eq = state.profile.equippedPet === p.id;
+        let reqLabel = '🎁 هدیه شروع';
+        if (p.type === 'iq') reqLabel = unl ? `✅ باز شده (${fa(p.req)} تست)` : `🔒 نیازمند ${fa(p.req)} تست (${fa(totQ)}/${fa(p.req)})`;
+        if (p.type === 'shield') reqLabel = unl ? `✅ باز شده (${fa(p.req)} روز کم‌گوشی)` : `🔒 ${fa(p.req)} روز تخم‌مرغ شانسی (${fa(eggDays)}/${fa(p.req)})`;
+        return `<div class="shop-card ${unl?'':'locked'} ${eq?'equipped':''}" onclick="selectPlushie('${p.id}')">
+            <div class="sc-emoji">${p.emoji}</div>
+            <div class="sc-name">${p.name}</div>
+            <div class="sc-sub">${reqLabel}</div>
+        </div>`;
+    }).join('');
+
+    // 5. Stickers Album (36)
+    document.getElementById('stickerCountLbl').textContent = `${fa(state.stickers.length)} / ۳۶`;
+    document.getElementById('stickersAlbumGrid').innerHTML = EGG_STICKERS.map(s => {
+        const own = state.stickers.includes(s.id);
+        return `<div class="sticker-slot ${own ? 'rarity-'+s.r : 'unowned'}">
+            <div style="font-size:1.85rem;">${own ? s.e : '❔'}</div>
+            <div style="font-size:0.6rem; font-weight:800; margin-top:3px;">${own ? s.n : 'کشف‌نشده'}</div>
+        </div>`;
+    }).join('');
+
+    // 6. Medals (32)
+    const medals = getAllMedals();
+    document.getElementById('medalsContainer').innerHTML = medals.map(m => {
+        const ok = m.cur >= m.max;
+        const pct = Math.min(100, Math.round((m.cur / m.max) * 100));
+        return `<div class="medal-row ${ok?'unlocked':''}">
+            <div class="m-ic">${m.ic}</div>
+            <div style="flex:1; min-width:0;">
+                <div style="display:flex; justify-content:space-between; font-size:0.8rem; font-weight:900;">
+                    <span>${m.t} ${ok?'✅':''}</span>
+                    <span style="color:var(--primary-dark); font-size:0.7rem;">+${fa(m.rw)}🍓</span>
+                </div>
+                <div style="font-size:0.68rem; color:var(--text-muted); margin:2px 0 4px 0;">${m.d} (${fa(Math.min(m.cur,m.max))} از ${fa(m.max)})</div>
+                <div class="ms-bar-bg" style="height:6px;"><div class="ms-bar-fill" style="width:${pct}%;"></div></div>
+            </div>
+        </div>`;
+    }).join('');
+}
+
+/* =========================================================================
+   12. SETTINGS & COACH PIN-PROTECTED CONTROL PANEL
+   ========================================================================= */
+function openSettingsModal() {
+    document.getElementById('stNameInp').value = state.profile.name;
+    tempAppTheme = state.profile.theme || 'strawberry';
+    document.querySelectorAll('#stThemeChips .chip').forEach(c => {
+        c.classList.toggle('selected', c.getAttribute('data-t') === tempAppTheme);
+    });
+    document.getElementById('settingsModal').classList.add('open');
+}
+function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+
+function pickAppTheme(t, el) {
+    tempAppTheme = t;
+    document.querySelectorAll('#stThemeChips .chip').forEach(c => c.classList.remove('selected'));
+    el.classList.add('selected');
+}
+function saveStudentSettings() {
+    const nm = document.getElementById('stNameInp').value.trim();
+    if (nm) state.profile.name = nm;
+    state.profile.theme = tempAppTheme;
+    saveState();
+    closeModal('settingsModal');
+    toast('🎨 ظاهر برنامه ذخیره شد!');
+}
+
+function requestOpenCoachPanel() {
+    const pin = state.rules.coachPin;
+    if (pin && pin.length > 0) {
+        const entered = prompt('🔐 لطفاً رمز پنل مربی را وارد کنید:');
+        if (entered === null) return;
+        if (entered !== pin) {
+            toast('❌ رمز اشتباه است!');
+            return;
+        }
+    }
+    closeModal('settingsModal');
+    const r = state.rules;
+    document.getElementById('rlMaxPhone').value = r.maxPhoneMins;
+    document.getElementById('rlMinIqQ').value = r.minDailyQuestions;
+    document.getElementById('rlMinCards').value = r.minDailyCards;
+    document.getElementById('rlPtsPerQ').value = r.ptsPerQuestion;
+    document.getElementById('rlDailyIqBonus').value = r.dailyIqBonus;
+    document.getElementById('rlHighAccBonus').value = r.highAccBonus;
+    document.getElementById('rlPtsPerCard').value = r.ptsPerCard;
+    document.getElementById('rlMaxPaidCards').value = r.maxPaidCardsPerDay;
+    document.getElementById('rlEggBonus').value = r.eggBonus;
+    document.getElementById('rlPinInp').value = r.coachPin || '';
+    document.getElementById('coachModal').classList.add('open');
+}
+
+function saveCoachRules() {
+    const r = state.rules;
+    r.maxPhoneMins = Math.max(0, parseInt(document.getElementById('rlMaxPhone').value) || 60);
+    r.minDailyQuestions = Math.max(1, parseInt(document.getElementById('rlMinIqQ').value) || 25);
+    r.minDailyCards = Math.max(1, parseInt(document.getElementById('rlMinCards').value) || 5);
+    r.ptsPerQuestion = Math.max(1, parseInt(document.getElementById('rlPtsPerQ').value) || 1);
+    r.dailyIqBonus = Math.max(0, parseInt(document.getElementById('rlDailyIqBonus').value) || 0);
+    r.highAccBonus = Math.max(0, parseInt(document.getElementById('rlHighAccBonus').value) || 0);
+    r.ptsPerCard = Math.max(1, parseInt(document.getElementById('rlPtsPerCard').value) || 4);
+    r.maxPaidCardsPerDay = Math.max(1, parseInt(document.getElementById('rlMaxPaidCards').value) || 15);
+    r.eggBonus = Math.max(5, parseInt(document.getElementById('rlEggBonus').value) || 45);
+    r.coachPin = document.getElementById('rlPinInp').value.trim();
+
+    saveState();
+    closeModal('coachModal');
+    toast('✅ قوانین و ضرایب جدید ذخیره شد!');
+}
+
+function giftManualBerries() {
+    addBerries(50, '🎁 جایزه ویژه مربی!');
+    confettiBurst();
+}
+
+function exportBackup() {
+    const blob = new Blob([JSON.stringify(state, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `fluffy_sister_v3_${todayISO()}.json`;
+    a.click();
+    URL.revokeObjectURL(url);
+}
+function importBackup(ev) {
+    const f = ev.target.files[0];
+    if (!f) return;
+    const rd = new FileReader();
+    rd.onload = e => {
+        try {
+            const d = JSON.parse(e.target.result);
+            if (d && d.profile && Array.isArray(d.cards)) {
+                state = d;
+                state.rules = { ...defaultRules(), ...(state.rules || {}) };
+                saveState();
+                closeModal('settingsModal');
+                toast('🎉 فایل پشتیبان با موفقیت بازیابی شد!');
+            }
+        } catch(err) { toast('⚠️ فایل نامعتبر است!'); }
+    };
+    rd.readAsText(f);
+}
+
+/* =========================================================================
+   13. HELPERS & INIT
+   ========================================================================= */
+function toast(msg) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    clearTimeout(window._tt);
+    window._tt = setTimeout(() => t.classList.remove('show'), 2800);
+}
+function confettiBurst() {
+    if (typeof confetti === 'function') confetti({ particleCount: 75, spread: 70, origin: { y: 0.65 } });
+}
+function beep(freq = 600, dur = 0.1) {
+    try {
+        const ctx = new (window.AudioContext || window.webkitAudioContext)();
+        const o = ctx.createOscillator(), g = ctx.createGain();
+        o.type = 'sine'; o.frequency.value = freq;
+        g.gain.setValueAtTime(0.07, ctx.currentTime);
+        g.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + dur);
+        o.connect(g); g.connect(ctx.destination);
+        o.start(); o.stop(ctx.currentTime + dur);
+    } catch(e) {}
+}
+
+window.addEventListener('DOMContentLoaded', () => {
+    initCal();
+    checkMedalsAndPlushies();
+    renderHeaderAndRoom();
+    updateFocusTxt();
+});
+</script>
+</body>
+</html>
